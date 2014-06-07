@@ -1,0 +1,18 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="dim_blank_string">8pt</dimen>
+    <dimen name="dim_hashtag">8pt</dimen>
+    <dimen name="dim_hextext">6pt</dimen>
+    <dimen name="dim_rgbtext">7pt</dimen>
+    <dimen name="dim_padding">2dp</dimen>
+    <dimen name="dim_colorbar_padding">5dp</dimen>
+    <dimen name="dim_spacing">5dp</dimen>
+    <dimen name="dim_seekbar_height">36dp</dimen>
+    <dimen name="dim_colorbar_height">55dp</dimen>
+    <dimen name="dim_toggletext">5pt</dimen>
+    <dimen name="dim_buttontext">@dimen/dim_toggletext</dimen>
+
+</resources>

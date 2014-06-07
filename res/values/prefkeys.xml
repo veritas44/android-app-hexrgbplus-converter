@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- preference keys -->
+    <string name="prefkey_int_color_red">IntColorRed</string>
+    <string name="prefkey_int_color_green">IntColorGreen</string>
+    <string name="prefkey_int_color_blue">IntColorBlue</string>
+    <string name="prefkey_bool_gray_mode">BoolGrayMode</string>
+
+    <!-- save box keys -->
+    <string name="prefkey_str_savehex_one">StrSaveHexOne</string>
+    <string name="prefkey_str_savehex_two">StrSaveHexTwo</string>
+    <string name="prefkey_str_savehex_three">StrSaveHexThre</string>
+    <string name="prefkey_str_savehex_four">StrSaveHexFour</string>
+    <string name="prefkey_str_savehex_five">StrSaveHexFive</string>
+
+</resources>
