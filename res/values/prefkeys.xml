@@ -8,10 +8,10 @@
     <string name="prefkey_bool_gray_mode">BoolGrayMode</string>
 
     <!-- save box keys -->
-    <string name="prefkey_str_savehex_one">StrSaveHexOne</string>
-    <string name="prefkey_str_savehex_two">StrSaveHexTwo</string>
-    <string name="prefkey_str_savehex_three">StrSaveHexThre</string>
-    <string name="prefkey_str_savehex_four">StrSaveHexFour</string>
-    <string name="prefkey_str_savehex_five">StrSaveHexFive</string>
+    <string name="prefkey_int_colorpreset_one">IntColorPresetOne</string>
+    <string name="prefkey_int_colorpreset_two">IntColorPresetTwo</string>
+    <string name="prefkey_int_colorpreset_three">IntColorPresetThree</string>
+    <string name="prefkey_int_colorpreset_four">IntColorPresetFour</string>
+    <string name="prefkey_int_colorpreset_five">IntColorPresetFive</string>
 
 </resources>

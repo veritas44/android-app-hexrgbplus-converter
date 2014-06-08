@@ -64,11 +64,13 @@ public class HexRgbPlusActivity extends Activity {
 
   private Properties colorNames;
 
-  private String saveHex1 = "";
-  private String saveHex2 = "";
-  private String saveHex3 = "";
-  private String saveHex4 = "";
-  private String saveHex5 = "";
+  private int defaultColor = Color.WHITE;
+
+  private int colorPreset1 = this.defaultColor;
+  private int colorPreset2 = this.defaultColor;
+  private int colorPreset3 = this.defaultColor;
+  private int colorPreset4 = this.defaultColor;
+  private int colorPreset5 = this.defaultColor;
 
   private LinearLayout backdrop;
 
@@ -95,7 +97,6 @@ public class HexRgbPlusActivity extends Activity {
   private SeekBar sb_b;
 
   private ToggleButton tgb;
-
 
   // loads app UI, sets default preferences
   @Override
@@ -137,7 +138,10 @@ public class HexRgbPlusActivity extends Activity {
     try {
       this.colorNames.load(getResources().getAssets().open(this.ASSET_CLRTXT));
     } catch (IOException e) {
+      
+      // TODO decide on what to do here.
       e.printStackTrace();
+    
     }
 
     // GETPREFS: get persistent preferences
@@ -151,12 +155,17 @@ public class HexRgbPlusActivity extends Activity {
     // get stored gray mode status
     this.grayMode = shpref.getBoolean(getString(R.string.prefkey_bool_gray_mode), false);
 
-    // get stored color values
-    this.saveHex1 = shpref.getString(getString(R.string.prefkey_str_savehex_one), "");
-    this.saveHex2 = shpref.getString(getString(R.string.prefkey_str_savehex_two), "");
-    this.saveHex3 = shpref.getString(getString(R.string.prefkey_str_savehex_three), "");
-    this.saveHex4 = shpref.getString(getString(R.string.prefkey_str_savehex_four), "");
-    this.saveHex5 = shpref.getString(getString(R.string.prefkey_str_savehex_five), "");
+    // get stored color preset values
+    this.colorPreset1 =
+        shpref.getInt(getString(R.string.prefkey_int_colorpreset_one), this.defaultColor);
+    this.colorPreset2 =
+        shpref.getInt(getString(R.string.prefkey_int_colorpreset_two), this.defaultColor);
+    this.colorPreset3 =
+        shpref.getInt(getString(R.string.prefkey_int_colorpreset_three), this.defaultColor);
+    this.colorPreset4 =
+        shpref.getInt(getString(R.string.prefkey_int_colorpreset_four), this.defaultColor);
+    this.colorPreset5 =
+        shpref.getInt(getString(R.string.prefkey_int_colorpreset_five), this.defaultColor);
 
     // OBSERVE: Event listeners
     this.et_hex.setOnFocusChangeListener(this.focusHandler);
@@ -191,7 +200,7 @@ public class HexRgbPlusActivity extends Activity {
     this.btn_savebox3.setOnLongClickListener(pokeHandler);
     this.btn_savebox4.setOnLongClickListener(pokeHandler);
     this.btn_savebox5.setOnLongClickListener(pokeHandler);
-    
+
     this.tgb.setOnCheckedChangeListener(this.checkHandler);
 
     // UPDATE: updates layout based on properties
@@ -215,12 +224,12 @@ public class HexRgbPlusActivity extends Activity {
     // store gray mode status
     editor.putBoolean(getString(R.string.prefkey_bool_gray_mode), this.grayMode);
 
-    // store saved color values
-    editor.putString(getString(R.string.prefkey_str_savehex_one), this.saveHex1);
-    editor.putString(getString(R.string.prefkey_str_savehex_two), this.saveHex2);
-    editor.putString(getString(R.string.prefkey_str_savehex_three), this.saveHex3);
-    editor.putString(getString(R.string.prefkey_str_savehex_four), this.saveHex4);
-    editor.putString(getString(R.string.prefkey_str_savehex_five), this.saveHex5);
+    // store saved color preset values
+    editor.putInt(getString(R.string.prefkey_int_colorpreset_one), this.colorPreset1);
+    editor.putInt(getString(R.string.prefkey_int_colorpreset_two), this.colorPreset2);
+    editor.putInt(getString(R.string.prefkey_int_colorpreset_three), this.colorPreset3);
+    editor.putInt(getString(R.string.prefkey_int_colorpreset_four), this.colorPreset4);
+    editor.putInt(getString(R.string.prefkey_int_colorpreset_five), this.colorPreset5);
 
     editor.commit();
   }
@@ -239,12 +248,12 @@ public class HexRgbPlusActivity extends Activity {
     // save gray mode status
     savedInstanceState.putBoolean(getString(R.string.prefkey_bool_gray_mode), this.grayMode);
 
-    // save saved color values
-    savedInstanceState.putString(getString(R.string.prefkey_str_savehex_one), this.saveHex1);
-    savedInstanceState.putString(getString(R.string.prefkey_str_savehex_two), this.saveHex2);
-    savedInstanceState.putString(getString(R.string.prefkey_str_savehex_three), this.saveHex3);
-    savedInstanceState.putString(getString(R.string.prefkey_str_savehex_four), this.saveHex4);
-    savedInstanceState.putString(getString(R.string.prefkey_str_savehex_five), this.saveHex5);
+    // save color preset values
+    savedInstanceState.putInt(getString(R.string.prefkey_int_colorpreset_one), this.colorPreset1);
+    savedInstanceState.putInt(getString(R.string.prefkey_int_colorpreset_two), this.colorPreset2);
+    savedInstanceState.putInt(getString(R.string.prefkey_int_colorpreset_three), this.colorPreset3);
+    savedInstanceState.putInt(getString(R.string.prefkey_int_colorpreset_four), this.colorPreset4);
+    savedInstanceState.putInt(getString(R.string.prefkey_int_colorpreset_five), this.colorPreset5);
   }
 
   // GETSTATE: Gets the app instance state
@@ -261,12 +270,13 @@ public class HexRgbPlusActivity extends Activity {
     // get gray mode status
     this.grayMode = savedInstanceState.getBoolean(getString(R.string.prefkey_bool_gray_mode));
 
-    // get saved color values
-    this.saveHex1 = savedInstanceState.getString(getString(R.string.prefkey_str_savehex_one));
-    this.saveHex2 = savedInstanceState.getString(getString(R.string.prefkey_str_savehex_two));
-    this.saveHex3 = savedInstanceState.getString(getString(R.string.prefkey_str_savehex_three));
-    this.saveHex4 = savedInstanceState.getString(getString(R.string.prefkey_str_savehex_four));
-    this.saveHex5 = savedInstanceState.getString(getString(R.string.prefkey_str_savehex_five));
+    // get color preset values
+    this.colorPreset1 = savedInstanceState.getInt(getString(R.string.prefkey_int_colorpreset_one));
+    this.colorPreset2 = savedInstanceState.getInt(getString(R.string.prefkey_int_colorpreset_two));
+    this.colorPreset3 =
+        savedInstanceState.getInt(getString(R.string.prefkey_int_colorpreset_three));
+    this.colorPreset4 = savedInstanceState.getInt(getString(R.string.prefkey_int_colorpreset_four));
+    this.colorPreset5 = savedInstanceState.getInt(getString(R.string.prefkey_int_colorpreset_five));
 
     this.updateByRgb();
   }
@@ -342,10 +352,18 @@ public class HexRgbPlusActivity extends Activity {
 
     this.backdrop.setBackgroundColor(Color.rgb(r, g, b));
     this.tv_hashtag.setTextColor(contrastColor);
-    this.tv_colorname.setTextColor(contrastColor);
 
+    // update X11 color names output (if any)
+    this.tv_colorname.setTextColor(contrastColor);
     this.tv_colorname.setText(this.colorNames.getProperty(this.et_hex.getText().toString(),
         getString(R.string.str_blank)));
+
+    // update save boxes
+    this.btn_savebox1.setBackgroundColor(this.colorPreset1);
+    this.btn_savebox2.setBackgroundColor(this.colorPreset2);
+    this.btn_savebox3.setBackgroundColor(this.colorPreset3);
+    this.btn_savebox4.setBackgroundColor(this.colorPreset4);
+    this.btn_savebox5.setBackgroundColor(this.colorPreset5);
   }
 
   // determines whether hashtag should be black or white
@@ -401,6 +419,7 @@ public class HexRgbPlusActivity extends Activity {
     return value;
   }
 
+  // converts decimal number to nicely-formatted hexadecimal number
   private String dec2hex(int value) {
 
     String hex;
@@ -456,6 +475,7 @@ public class HexRgbPlusActivity extends Activity {
    * Event Listeners - Nice, clean way to respond to user wants and needs.
    */
 
+  // handles keys
   private View.OnKeyListener keyhandler = new View.OnKeyListener() {
 
     @Override
@@ -476,6 +496,7 @@ public class HexRgbPlusActivity extends Activity {
     }
   };
 
+  // handles edits
   private TextView.OnEditorActionListener editHandler = new TextView.OnEditorActionListener() {
 
     @Override
@@ -534,6 +555,7 @@ public class HexRgbPlusActivity extends Activity {
     }
   };
 
+  // handles checks and unchecks
   private CompoundButton.OnCheckedChangeListener checkHandler =
       new CompoundButton.OnCheckedChangeListener() {
 
@@ -569,6 +591,7 @@ public class HexRgbPlusActivity extends Activity {
         }
       };
 
+  // handles focus changes
   private View.OnFocusChangeListener focusHandler = new View.OnFocusChangeListener() {
 
     @Override
@@ -605,7 +628,7 @@ public class HexRgbPlusActivity extends Activity {
 
   };
 
-
+  // handles pokes
   private View.OnLongClickListener pokeHandler = new View.OnLongClickListener() {
 
     @Override
@@ -625,23 +648,24 @@ public class HexRgbPlusActivity extends Activity {
       // get the specific button 'poked'
       Button btn = (Button) findViewById(id);
       btn.setTextColor(getContrastColor(r, g, b));
-      btn.setBackgroundColor(Color.rgb(r, g, b));
+      int color = Color.rgb(r, g, b);
+      btn.setBackgroundColor(color);
 
       switch (id) {
         case R.id.btn_savebox1:
-          saveHex1 = hex;
+          colorPreset1 = color;
           break;
         case R.id.btn_savebox2:
-          saveHex2 = hex;
+          colorPreset2 = color;
           break;
         case R.id.btn_savebox3:
-          saveHex3 = hex;
+          colorPreset3 = color;
           break;
         case R.id.btn_savebox4:
-          saveHex4 = hex;
+          colorPreset4 = color;
           break;
         case R.id.btn_savebox5:
-          saveHex5 = hex;
+          colorPreset5 = color;
           break;
 
         default:
@@ -658,44 +682,49 @@ public class HexRgbPlusActivity extends Activity {
     }
   };
 
+  // handles clicks
   private View.OnClickListener clickHandler = new View.OnClickListener() {
 
     @Override
     public void onClick(View v) {
 
-      // NOTE: String.isEmpty() requires API 9, so String.equals() is used.
+      int color = 0;
 
       switch (v.getId()) {
-
         case R.id.btn_savebox1:
-          if (!saveHex1.equals("")) {
-            et_hex.setText(saveHex1);
-            updateByHex();
-          }
+          color = colorPreset1;
+          colorRed = Color.red(color);
+          colorGreen = Color.green(color);
+          colorBlue = Color.blue(color);
+          updateByRgb();
           break;
         case R.id.btn_savebox2:
-          if (!saveHex2.equals("")) {
-            et_hex.setText(saveHex2);
-            updateByHex();
-          }
+          color = colorPreset2;
+          colorRed = Color.red(color);
+          colorGreen = Color.green(color);
+          colorBlue = Color.blue(color);
+          updateByRgb();
           break;
         case R.id.btn_savebox3:
-          if (!saveHex3.equals("")) {
-            et_hex.setText(saveHex3);
-            updateByHex();
-          }
+          color = colorPreset3;
+          colorRed = Color.red(color);
+          colorGreen = Color.green(color);
+          colorBlue = Color.blue(color);
+          updateByRgb();
           break;
         case R.id.btn_savebox4:
-          if (!saveHex4.equals("")) {
-            et_hex.setText(saveHex4);
-            updateByHex();
-          }
+          color = colorPreset4;
+          colorRed = Color.red(color);
+          colorGreen = Color.green(color);
+          colorBlue = Color.blue(color);
+          updateByRgb();
           break;
         case R.id.btn_savebox5:
-          if (!saveHex5.equals("")) {
-            et_hex.setText(saveHex5);
-            updateByHex();
-          }
+          color = colorPreset5;
+          colorRed = Color.red(color);
+          colorGreen = Color.green(color);
+          colorBlue = Color.blue(color);
+          updateByRgb();
           break;
         case R.id.btn_set:
           updateByHex();
@@ -706,7 +735,6 @@ public class HexRgbPlusActivity extends Activity {
         case R.id.btn_white:
           setToWhite();
           break;
-
         default:
           // do nothing
           break;
@@ -715,6 +743,8 @@ public class HexRgbPlusActivity extends Activity {
 
   };
 
+  
+  // handles slips and slides
   private SeekBar.OnSeekBarChangeListener seekHandler = new SeekBar.OnSeekBarChangeListener() {
 
     @Override
