@@ -1,26 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- app title (branding) -->
     <string name="app_name">HEXRGB+</string>
 
     <!-- nothing here -->
     <string name="str_blank"></string>
 
-    <!-- button color macros -->
+    <!-- button label for black -->
     <string name="str_black">BLK</string>
+
+    <!-- button label for white -->
     <string name="str_white">WHT</string>
+
+    <!-- button label for gray mode -->
     <string name="str_gray">GRY</string>
+
+    <!-- button label: parade mode -->
+    <string name="str_parade">PRD</string>
 
     <!-- button color set -->
     <string name="str_sethex">SET</string>
+
+    <!-- default hex color is white -->
     <string name="str_hex_default_value">FFFFFF</string>
+
+    <!-- hex hashtag -->
     <string name="str_hashtag">#</string>
+
+    <!-- rgb default value for EditText view -->
     <string name="str_rgb_default_value">255</string>
 
     <!-- button save box set -->
     <string name="str_nothingsaved">--</string>
 
-    <!-- toasty tips -->
-    <string name="str_graymode_tip">Gray Mode: Drag the RED slider to browse gray colors.</string>
+<!--       Tips for toast.  -->
+
+
+    <!-- TIP: parade mode -->
+    <string name="str_parademode_tip">Parade Mode: Drag any slider, others follow.</string>
+
+    <!-- TIP: Savebox success. -->
     <string name="str_savebox_tip">Color saved.</string>
+
 </resources>

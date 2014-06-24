@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="int_maxhex">6</integer>       
-    <integer name="int_maxbar">255</integer>             
+    <!-- maximum number of hex digits -->
+    <integer name="int_maxhex">6</integer>
+
+    <!-- maximum seekbar (slider) value -->
+    <integer name="int_maxbar">255</integer>
+
+    <!-- rgb max value (not used) -->
+    <integer name="int_rgb_max">255</integer>
+
+    <!-- rgb min value (not used) -->
+    <integer name="int_rgb_min">0</integer>
 </resources>

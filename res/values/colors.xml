@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- SeekBar (slider) colors -->
+    <!-- red SeekBar (slider) background color -->
     <color name="red">#FF0000</color>
+
+    <!-- green SeekBar (slider) background color -->
     <color name="green">#00FF00</color>
+
+    <!-- blue SeekBar (slider) background color -->
     <color name="blue">#0000FF</color>
-    
-    <!-- contrast colors for hashtag or box borders -->
+
+    <!-- contrast color black for certain luminosity -->
     <color name="black">#000000</color>
+
+    <!-- contrast color white for certain luminosity -->
     <color name="white">#FFFFFF</color>
 
 </resources>

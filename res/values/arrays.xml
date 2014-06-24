@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- String Array of X11 Color Names -->
     <string-array name="arr_x11_colornames">
         <item>000000:Black</item>
         <item>000080:Navy</item>

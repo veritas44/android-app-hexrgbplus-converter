@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- preference keys -->
+    
+    <!-- Preference Key (Integer) Red -->    
     <string name="prefkey_int_color_red">IntColorRed</string>
-    <string name="prefkey_int_color_green">IntColorGreen</string>
-    <string name="prefkey_int_color_blue">IntColorBlue</string>
-    <string name="prefkey_bool_gray_mode">BoolGrayMode</string>
 
-    <!-- save box keys -->
+    <!-- Preference Key (Integer) Green -->
+    <string name="prefkey_int_color_green">IntColorGreen</string>
+
+    <!-- Preference Key (Integer) Blue -->
+    <string name="prefkey_int_color_blue">IntColorBlue</string>
+    
+    <!-- Preference Key (Boolean) Parade Mode -->
+    <string name="prefkey_bool_parade_mode">BoolParadeMode</string>
+
+    <!-- Preference Key (Integer) Color Preset 1 -->
     <string name="prefkey_int_colorpreset_one">IntColorPresetOne</string>
+
+    <!-- Preference Key (Integer) Color Preset 2 -->
     <string name="prefkey_int_colorpreset_two">IntColorPresetTwo</string>
+
+    <!-- Preference Key (Integer) Color Preset 3 -->
     <string name="prefkey_int_colorpreset_three">IntColorPresetThree</string>
+
+    <!-- Preference Key (Integer) Color Preset 4 -->
     <string name="prefkey_int_colorpreset_four">IntColorPresetFour</string>
+    
+    <!-- Preference Key (Integer) Color Preset 5 -->
     <string name="prefkey_int_colorpreset_five">IntColorPresetFive</string>
 
 </resources>
