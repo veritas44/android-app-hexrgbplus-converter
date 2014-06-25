@@ -22,12 +22,13 @@
 
 package com.github.pffy.hexrgbplus;
 
-import java.io.IOException;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.Locale;
-import java.util.Properties;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -47,22 +48,23 @@ import android.widget.ToggleButton;
  * HexRgbPlusActivity - HEXRGB+ = HEXRGB plus some features.
  * 
  * @license http://unlicense.org/ The Unlicense
- * @version 2.1 (r1)
+ * @version 2.3 (r3)
  * @link https://github.com/pffy/
  * @author The Pffy Authors
  */
 
 public class HexRgbPlusActivity extends Activity {
 
-  private final String ASSET_CLRTXT = "IdxHexColorNames.txt";
+  private final int RGB_MIN_VALUE = 0;
+  private final int RGB_MAX_VALUE = 255;
 
   private int colorRed = 0;
   private int colorGreen = 0;
   private int colorBlue = 0;
 
-  private boolean grayMode = false;
+  private boolean paradeMode = false;
 
-  private Properties colorNames;
+  private LinkedHashMap<String, String> colorNames = new LinkedHashMap<String, String>();
 
   private int defaultColor = Color.WHITE;
 
@@ -130,19 +132,10 @@ public class HexRgbPlusActivity extends Activity {
     this.btn_savebox4 = (Button) findViewById(R.id.btn_savebox4);
     this.btn_savebox5 = (Button) findViewById(R.id.btn_savebox5);
 
-    this.tgb = (ToggleButton) findViewById(R.id.tgbtn_graymode);
+    this.tgb = (ToggleButton) findViewById(R.id.tgbtn_parade_mode);
 
-    // GETDATA: load properties
-    this.colorNames = new Properties();
-
-    try {
-      this.colorNames.load(getResources().getAssets().open(this.ASSET_CLRTXT));
-    } catch (IOException e) {
-      
-      // TODO decide on what to do here.
-      e.printStackTrace();
-    
-    }
+    // GETDATA: load color names
+    this.init();
 
     // GETPREFS: get persistent preferences
     SharedPreferences shpref = this.getPreferences(Context.MODE_PRIVATE);
@@ -152,8 +145,8 @@ public class HexRgbPlusActivity extends Activity {
     this.colorGreen = shpref.getInt(getString(R.string.prefkey_int_color_green), 0);
     this.colorBlue = shpref.getInt(getString(R.string.prefkey_int_color_blue), 0);
 
-    // get stored gray mode status
-    this.grayMode = shpref.getBoolean(getString(R.string.prefkey_bool_gray_mode), false);
+    // get stored parade mode status
+    this.paradeMode = shpref.getBoolean(getString(R.string.prefkey_bool_parade_mode), false);
 
     // get stored color preset values
     this.colorPreset1 =
@@ -189,19 +182,20 @@ public class HexRgbPlusActivity extends Activity {
     this.btn_black.setOnClickListener(this.clickHandler);
     this.btn_white.setOnClickListener(this.clickHandler);
 
-    this.btn_savebox1.setOnClickListener(clickHandler);
-    this.btn_savebox2.setOnClickListener(clickHandler);
-    this.btn_savebox3.setOnClickListener(clickHandler);
-    this.btn_savebox4.setOnClickListener(clickHandler);
-    this.btn_savebox5.setOnClickListener(clickHandler);
+    this.btn_savebox1.setOnClickListener(this.clickHandler);
+    this.btn_savebox2.setOnClickListener(this.clickHandler);
+    this.btn_savebox3.setOnClickListener(this.clickHandler);
+    this.btn_savebox4.setOnClickListener(this.clickHandler);
+    this.btn_savebox5.setOnClickListener(this.clickHandler);
 
-    this.btn_savebox1.setOnLongClickListener(pokeHandler);
-    this.btn_savebox2.setOnLongClickListener(pokeHandler);
-    this.btn_savebox3.setOnLongClickListener(pokeHandler);
-    this.btn_savebox4.setOnLongClickListener(pokeHandler);
-    this.btn_savebox5.setOnLongClickListener(pokeHandler);
+    this.btn_savebox1.setOnLongClickListener(this.pokeHandler);
+    this.btn_savebox2.setOnLongClickListener(this.pokeHandler);
+    this.btn_savebox3.setOnLongClickListener(this.pokeHandler);
+    this.btn_savebox4.setOnLongClickListener(this.pokeHandler);
+    this.btn_savebox5.setOnLongClickListener(this.pokeHandler);
 
     this.tgb.setOnCheckedChangeListener(this.checkHandler);
+    this.backdrop.setOnLongClickListener(pokeHandler);
 
     // UPDATE: updates layout based on properties
     this.updateByRgb();
@@ -221,8 +215,8 @@ public class HexRgbPlusActivity extends Activity {
     editor.putInt(getString(R.string.prefkey_int_color_green), this.colorGreen);
     editor.putInt(getString(R.string.prefkey_int_color_blue), this.colorBlue);
 
-    // store gray mode status
-    editor.putBoolean(getString(R.string.prefkey_bool_gray_mode), this.grayMode);
+    // store parade mode status
+    editor.putBoolean(getString(R.string.prefkey_bool_parade_mode), this.paradeMode);
 
     // store saved color preset values
     editor.putInt(getString(R.string.prefkey_int_colorpreset_one), this.colorPreset1);
@@ -245,8 +239,8 @@ public class HexRgbPlusActivity extends Activity {
     savedInstanceState.putInt(getString(R.string.prefkey_int_color_green), this.colorGreen);
     savedInstanceState.putInt(getString(R.string.prefkey_int_color_blue), this.colorBlue);
 
-    // save gray mode status
-    savedInstanceState.putBoolean(getString(R.string.prefkey_bool_gray_mode), this.grayMode);
+    // save parade mode status
+    savedInstanceState.putBoolean(getString(R.string.prefkey_bool_parade_mode), this.paradeMode);
 
     // save color preset values
     savedInstanceState.putInt(getString(R.string.prefkey_int_colorpreset_one), this.colorPreset1);
@@ -267,8 +261,8 @@ public class HexRgbPlusActivity extends Activity {
     this.colorGreen = savedInstanceState.getInt(getString(R.string.prefkey_int_color_green));
     this.colorBlue = savedInstanceState.getInt(getString(R.string.prefkey_int_color_blue));
 
-    // get gray mode status
-    this.grayMode = savedInstanceState.getBoolean(getString(R.string.prefkey_bool_gray_mode));
+    // get parade mode status
+    this.paradeMode = savedInstanceState.getBoolean(getString(R.string.prefkey_bool_parade_mode));
 
     // get color preset values
     this.colorPreset1 = savedInstanceState.getInt(getString(R.string.prefkey_int_colorpreset_one));
@@ -294,9 +288,6 @@ public class HexRgbPlusActivity extends Activity {
     this.colorGreen = rgb[1];
     this.colorBlue = rgb[2];
 
-    this.grayMode = false;
-    this.tgb.setChecked(false);
-
     this.updateByRgb();
   }
 
@@ -306,35 +297,18 @@ public class HexRgbPlusActivity extends Activity {
     int r, g, b;
 
     r = this.colorRed;
+    g = this.colorGreen;
+    b = this.colorBlue;
+
     this.sb_r.setProgress(r);
-    this.et_r.setText(r + "");
+    this.sb_g.setProgress(g);
+    this.sb_b.setProgress(b);
 
-    if (this.grayMode) {
+    this.et_r.setText("" + r);
+    this.et_g.setText("" + g);
+    this.et_b.setText("" + b);
 
-      this.colorGreen = this.colorBlue = r;
-
-      this.sb_g.setProgress(r);
-      this.sb_b.setProgress(r);
-
-      this.et_g.setText(r + "");
-      this.et_b.setText(r + "");
-
-      this.et_hex.setText(this.rgb2hex(r, r, r));
-
-    } else {
-
-      g = this.colorGreen;
-      b = this.colorBlue;
-
-      this.sb_g.setProgress(g);
-      this.sb_b.setProgress(b);
-
-      this.et_g.setText(g + "");
-      this.et_b.setText(b + "");
-
-      this.et_hex.setText(this.rgb2hex(r, g, b));
-    }
-
+    this.et_hex.setText(this.rgb2hex(r, g, b));
     this.updateBackground();
   }
 
@@ -343,20 +317,25 @@ public class HexRgbPlusActivity extends Activity {
 
     int r, g, b;
     int contrastColor;
+    String hexColor;
 
     r = this.colorRed;
     g = this.colorGreen;
     b = this.colorBlue;
 
     contrastColor = this.getContrastColor(r, g, b);
+    hexColor = this.et_hex.getText().toString();
 
     this.backdrop.setBackgroundColor(Color.rgb(r, g, b));
     this.tv_hashtag.setTextColor(contrastColor);
 
+    this.tv_colorname.setText("");
+
     // update X11 color names output (if any)
-    this.tv_colorname.setTextColor(contrastColor);
-    this.tv_colorname.setText(this.colorNames.getProperty(this.et_hex.getText().toString(),
-        getString(R.string.str_blank)));
+    if (this.colorNames.containsKey(hexColor)) {
+      this.tv_colorname.setText(this.colorNames.get(hexColor));
+      this.tv_colorname.setTextColor(contrastColor);
+    }
 
     // update save boxes
     this.btn_savebox1.setBackgroundColor(this.colorPreset1);
@@ -370,32 +349,29 @@ public class HexRgbPlusActivity extends Activity {
   private int getContrastColor(int r, int g, int b) {
 
     double rx, gx, bx;
-    rx = 0.213 * r / 255;
-    gx = 0.715 * g / 255;
-    bx = 0.072 * b / 255;
 
-    if (rx + gx + bx < 0.5) {
-      return Color.WHITE;
-    } else {
-      return Color.BLACK;
-    }
+    rx = 0.213 * r / this.RGB_MAX_VALUE;
+    gx = 0.715 * g / this.RGB_MAX_VALUE;
+    bx = 0.072 * b / this.RGB_MAX_VALUE;
+
+    return (rx + gx + bx < 0.5) ? Color.WHITE : Color.BLACK;
   }
 
   // sets current color to black
   private void setToBlack() {
 
-    this.colorRed = 0;
-    this.colorGreen = 0;
-    this.colorBlue = 0;
+    this.colorRed = this.RGB_MIN_VALUE;
+    this.colorGreen = this.RGB_MIN_VALUE;
+    this.colorBlue = this.RGB_MIN_VALUE;
     this.updateByRgb();
   }
 
   // sets current color to white
   private void setToWhite() {
 
-    this.colorRed = 255;
-    this.colorGreen = 255;
-    this.colorBlue = 255;
+    this.colorRed = this.RGB_MAX_VALUE;
+    this.colorGreen = this.RGB_MAX_VALUE;
+    this.colorBlue = this.RGB_MAX_VALUE;
     this.updateByRgb();
   }
 
@@ -409,8 +385,7 @@ public class HexRgbPlusActivity extends Activity {
       value = Integer.parseInt(input);
 
       // value is bounded between 0 and 255
-      value = Math.max(0, value);
-      value = Math.min(value, 255);
+      this.filterRgbInput(value);
 
     } catch (Exception ex) {
       value = 0; // no problem. moving along.
@@ -444,11 +419,6 @@ public class HexRgbPlusActivity extends Activity {
     return hex;
   }
 
-  // converts RGB color values into hexadecimal
-  private String rgb2hex(int r, int g, int b) {
-    return dec2hex(r) + "" + dec2hex(g) + "" + dec2hex(b);
-  }
-
   // converts hexadecimal into RGB color values
   private int[] hex2rgb(String hex) {
 
@@ -465,10 +435,73 @@ public class HexRgbPlusActivity extends Activity {
 
     } catch (Exception ex) {
       // no problem. just move on.
-      rgb[0] = rgb[1] = rgb[2] = 0;
+      rgb[0] = rgb[1] = rgb[2] = this.RGB_MIN_VALUE;
     }
 
     return rgb;
+  }
+
+  // converts directly from color to rgb array
+  private Integer[] getRgbFromColor(int color) {
+
+    Integer[] rgb = new Integer[3];
+    rgb[0] = Color.red(color);
+    rgb[1] = Color.green(color);
+    rgb[2] = Color.blue(color);
+
+    return rgb;
+  }
+
+  // converts directly from color to hex
+  private String getHexFromColor(int color) {
+    return "#" + dec2hex(Color.red(color)) + dec2hex(Color.green(color))
+        + dec2hex(Color.blue(color));
+  }
+
+  // converts RGB color values into hexadecimal
+  private String rgb2hex(int r, int g, int b) {
+    return dec2hex(r) + "" + dec2hex(g) + "" + dec2hex(b);
+  }
+
+  // returns integers from 0 to 255.
+  private int filterRgbInput(int value) {
+    return Math.max(this.RGB_MIN_VALUE, Math.min(this.RGB_MAX_VALUE, value));
+  }
+
+  // returns export string from a color
+  private String buildExportString(int color) {
+    return Arrays.asList(getRgbFromColor(color)) + " " + getHexFromColor(color);
+  }
+
+  // exports palette with Intent, loading Chooser
+  private void sendPaletteByIntent() {
+
+    String str = "";
+    str =
+        buildExportString(colorPreset1) + "; " + buildExportString(colorPreset2) + "; "
+            + buildExportString(colorPreset3) + "; " + buildExportString(colorPreset4) + "; "
+            + buildExportString(colorPreset5);
+
+    // boilerplate intent code
+    Intent sendIntent = new Intent();
+    sendIntent.setAction(Intent.ACTION_SEND);
+    sendIntent.putExtra(Intent.EXTRA_TEXT, str);
+    sendIntent.setType("text/plain");
+    startActivity(Intent.createChooser(sendIntent, "Send Palette to:"));
+  }
+
+  // activity data startup method
+  private void init() {
+
+    // delimiter
+    String delimiter = ":";
+    String[] hexNameArray;
+
+    for (String hexAndColorName : getResources().getStringArray(R.array.arr_x11_colornames)) {
+      hexNameArray = hexAndColorName.split(delimiter);
+      colorNames.put(hexNameArray[0], hexNameArray[1]);
+    }
+
   }
 
   /*
@@ -489,7 +522,6 @@ public class HexRgbPlusActivity extends Activity {
         default:
           // do nothing here.
           break;
-
       }
 
       return false;
@@ -504,11 +536,13 @@ public class HexRgbPlusActivity extends Activity {
 
       int viewId = 0;
       int value = 0;
+
       String hexString;
       EditText et;
 
       viewId = v.getId();
       et = (EditText) findViewById(viewId);
+
       hexString = et.getText().toString();
       value = processRgbInput(hexString);
 
@@ -562,29 +596,11 @@ public class HexRgbPlusActivity extends Activity {
         @Override
         public void onCheckedChanged(CompoundButton bv, boolean isChecked) {
 
-          // gray mode only needs red SeekBar enabled
+          paradeMode = isChecked;
+
           if (isChecked) {
-
-            sb_g.setEnabled(false);
-            sb_b.setEnabled(false);
-
-            et_g.setEnabled(false);
-            et_b.setEnabled(false);
-
-            grayMode = true;
-
-            Toast.makeText(bv.getContext(), getResources().getString(R.string.str_graymode_tip),
+            Toast.makeText(bv.getContext(), getResources().getString(R.string.str_parademode_tip),
                 Toast.LENGTH_LONG).show();
-
-          } else {
-
-            sb_g.setEnabled(true);
-            sb_b.setEnabled(true);
-
-            et_g.setEnabled(true);
-            et_b.setEnabled(true);
-
-            grayMode = false;
           }
 
           updateByRgb();
@@ -625,7 +641,6 @@ public class HexRgbPlusActivity extends Activity {
         updateByRgb();
       }
     }
-
   };
 
   // handles pokes
@@ -634,51 +649,68 @@ public class HexRgbPlusActivity extends Activity {
     @Override
     public boolean onLongClick(View v) {
 
-      int r, g, b;
+      int id;
+      int r, g, b, color;
 
-      r = colorRed;
-      g = colorGreen;
-      b = colorBlue;
-
-      String hex = rgb2hex(r, g, b);
-      et_hex.setText(hex);
-
-      int id = v.getId();
-
-      // get the specific button 'poked'
-      Button btn = (Button) findViewById(id);
-      btn.setTextColor(getContrastColor(r, g, b));
-      int color = Color.rgb(r, g, b);
-      btn.setBackgroundColor(color);
+      id = v.getId();
 
       switch (id) {
-        case R.id.btn_savebox1:
-          colorPreset1 = color;
-          break;
-        case R.id.btn_savebox2:
-          colorPreset2 = color;
-          break;
-        case R.id.btn_savebox3:
-          colorPreset3 = color;
-          break;
-        case R.id.btn_savebox4:
-          colorPreset4 = color;
-          break;
-        case R.id.btn_savebox5:
-          colorPreset5 = color;
-          break;
 
+        case R.id.btn_savebox1:
+        case R.id.btn_savebox2:
+        case R.id.btn_savebox3:
+        case R.id.btn_savebox4:
+        case R.id.btn_savebox5:
+
+          r = colorRed;
+          g = colorGreen;
+          b = colorBlue;
+
+          String hex = rgb2hex(r, g, b);
+          et_hex.setText(hex);
+
+          // get the specific button 'poked'
+          Button btn = (Button) findViewById(id);
+          btn.setTextColor(getContrastColor(r, g, b));
+
+          color = Color.rgb(r, g, b);
+          btn.setBackgroundColor(color);
+
+          switch (id) {
+            case R.id.btn_savebox1:
+              colorPreset1 = color;
+              break;
+            case R.id.btn_savebox2:
+              colorPreset2 = color;
+              break;
+            case R.id.btn_savebox3:
+              colorPreset3 = color;
+              break;
+            case R.id.btn_savebox4:
+              colorPreset4 = color;
+              break;
+            case R.id.btn_savebox5:
+              colorPreset5 = color;
+              break;
+            default:
+              // do nothing
+              break;
+          }
+
+          updateByHex();
+          Toast.makeText(getBaseContext(), getString(R.string.str_savebox_tip) + "",
+              Toast.LENGTH_LONG).show();
+
+          return true;
+        case R.id.linlay_background:
+          sendPaletteByIntent();
+          return true;
         default:
           // do nothing
-          return false;
+          break;
       }
 
-      updateByHex();
-      Toast.makeText(getBaseContext(), getString(R.string.str_savebox_tip) + "", Toast.LENGTH_LONG)
-          .show();
-
-
-      return true;
+      return false;
     }
   };
 
@@ -740,45 +772,78 @@ public class HexRgbPlusActivity extends Activity {
           break;
       }
     }
-
   };
 
-  
   // handles slips and slides
   private SeekBar.OnSeekBarChangeListener seekHandler = new SeekBar.OnSeekBarChangeListener() {
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-      // nothing
+      // finger up, do nothing
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-      // nothing
+      // finger down, do nothing
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
+      int dp = 0;
+
+      // if user touch
       if (fromUser) {
-        switch (seekBar.getId()) {
-          case R.id.sb_red:
-            colorRed = progress;
-            break;
-          case R.id.sb_green:
-            colorGreen = progress;
-            break;
-          case R.id.sb_blue:
-            colorBlue = progress;
-            break;
-          default:
-            // do nothing
-            break;
+
+        // if parade mode
+        if (paradeMode) {
+
+          switch (seekBar.getId()) {
+            case R.id.sb_red:
+              // delta = current progress - previous progress
+              dp = progress - colorRed;
+              colorRed = progress;
+              colorBlue = filterRgbInput(colorBlue + dp);
+              colorGreen = filterRgbInput(colorGreen + dp);
+              break;
+            case R.id.sb_green:
+              dp = progress - colorGreen;
+              colorRed = filterRgbInput(colorRed + dp);
+              colorGreen = progress;
+              colorBlue = filterRgbInput(colorBlue + dp);
+              break;
+            case R.id.sb_blue:
+              dp = progress - colorBlue;
+              colorRed = filterRgbInput(colorRed + dp);
+              colorGreen = filterRgbInput(colorGreen + dp);
+              colorBlue = progress;
+              break;
+            default:
+              // do nothing
+              break;
+          }
+
+        } else {
+
+          switch (seekBar.getId()) {
+            case R.id.sb_red:
+              colorRed = progress;
+              break;
+            case R.id.sb_green:
+              colorGreen = progress;
+              break;
+            case R.id.sb_blue:
+              colorBlue = progress;
+              break;
+            default:
+              // do nothing
+              break;
+          }
         }
-
-        updateByRgb();
       }
-    }
 
+      updateByRgb();
+    }
   };
 }
+
