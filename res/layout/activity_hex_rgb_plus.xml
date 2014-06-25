@@ -163,7 +163,7 @@
     <LinearLayout
         android:id="@+id/linlay_save"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dim_colorbar_height"
+        android:layout_height="@dimen/dim_savebar_height"
         android:gravity="center|center_horizontal|top"
         android:paddingBottom="@dimen/dim_colorbar_padding"
         android:paddingTop="@dimen/dim_colorbar_padding" >

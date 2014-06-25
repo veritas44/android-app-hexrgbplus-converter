@@ -5,8 +5,8 @@
 
     <!-- (Official) Android Design recommendation for margin. -->
     <dimen name="activity_vertical_margin">16dp</dimen>
-    
-    <!-- DIMENSION: Text size for blank string. -->    
+
+    <!-- DIMENSION: Text size for blank string. -->
     <dimen name="dim_blank_string">8pt</dimen>
 
     <!-- DIMENSION: Text size for the hashtag. -->
@@ -17,25 +17,28 @@
 
     <!-- DIMENSION: Text size for the views with RGB values. -->
     <dimen name="dim_rgbtext">7pt</dimen>
-    
+
     <!-- DIMENSION: Common view padding. -->
     <dimen name="dim_padding">2dp</dimen>
-    
+
     <!-- DIMENSION: Common view spacing. -->
     <dimen name="dim_spacing">5dp</dimen>
-    
+
     <!-- DIMENSION: Height for each slider. -->
     <dimen name="dim_seekbar_height">36dp</dimen>
-    
+
     <!-- DIMENSION: Height for the view with SET, BLK, WHT, PRD buttons. -->
     <dimen name="dim_colorbar_height">55dp</dimen>
-    
+
     <!-- DIMENSION: Padding for the view with SET, BLK, WHT, PRD buttons. -->
     <dimen name="dim_colorbar_padding">5dp</dimen>
+
+    <!-- DIMENSION: Height for the view with save buttons. -->
+    <dimen name="dim_savebar_height">@dimen/dim_colorbar_height</dimen>
     
     <!-- DIMENSION: Best text size for multiple devices. -->
     <dimen name="dim_toggletext">5pt</dimen>
-    
+
     <!-- DIMENSION: Uses the same text size as toggle button. -->
     <dimen name="dim_buttontext">@dimen/dim_toggletext</dimen>
 
