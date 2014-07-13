@@ -48,7 +48,7 @@ import android.widget.ToggleButton;
  * HexRgbPlusActivity - HEXRGB+ = HEXRGB plus some features.
  * 
  * @license http://unlicense.org/ The Unlicense
- * @version 2.3 (r3)
+ * @version 2.7 (r7)
  * @link https://github.com/pffy/
  * @author The Pffy Authors
  */
@@ -148,6 +148,8 @@ public class HexRgbPlusActivity extends Activity {
     // get stored parade mode status
     this.paradeMode = shpref.getBoolean(getString(R.string.prefkey_bool_parade_mode), false);
 
+    this.tgb.setChecked(this.paradeMode);
+    
     // get stored color preset values
     this.colorPreset1 =
         shpref.getInt(getString(R.string.prefkey_int_colorpreset_one), this.defaultColor);
