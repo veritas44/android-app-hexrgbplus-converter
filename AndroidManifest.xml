@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.pffy.hexrgbplus"
-    android:versionCode="7"
-    android:versionName="2.7" xmlns:tools="http://schemas.android.com/tools">
+    package="pffy.mobile.hexrgbplus"
+    android:versionCode="9"
+    android:versionName="2.9" xmlns:tools="http://schemas.android.com/tools">
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="10" tools:ignore="OldTargetApi"/>
+        android:minSdkVersion="15"
+        android:targetSdkVersion="15" tools:ignore="OldTargetApi"/>
 
     <application
         android:allowBackup="true"
@@ -14,7 +14,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="HexRgbPlusActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:configChanges="screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

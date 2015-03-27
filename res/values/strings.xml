@@ -8,13 +8,10 @@
     <string name="str_blank"></string>
 
     <!-- button label for black -->
-    <string name="str_black">BLK</string>
+    <string name="str_black">B</string>
 
     <!-- button label for white -->
-    <string name="str_white">WHT</string>
-
-    <!-- button label for gray mode -->
-    <string name="str_gray">GRY</string>
+    <string name="str_white">W</string>
 
     <!-- button label: parade mode -->
     <string name="str_parade">PRD</string>
@@ -34,6 +31,9 @@
     <!-- button save box set -->
     <string name="str_nothingsaved">--</string>
 
+    <string name="str_colorname_tip">Use drop down menu to choose a new color.</string>
+    <string name="str_colorname_selected"> selected.</string>
+    
 <!--       Tips for toast.  -->
 
 

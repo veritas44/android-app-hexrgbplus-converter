@@ -1,0 +1,225 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linlay_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".HexRgbPlusActivity" >
+
+    <LinearLayout
+        android:id="@+id/linlay_red"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_seekbar_height"
+        android:gravity="center|top"
+        android:paddingBottom="@dimen/dim_padding" >
+
+        <SeekBar
+            android:id="@+id/sb_red"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"
+            android:max="@integer/int_maxbar"
+            android:paddingBottom="10dp"
+            android:progressDrawable="@color/red" />
+
+        <EditText
+            android:id="@+id/et_red"
+            android:layout_width="50dp"
+            android:layout_height="35dp"
+            android:ems="10"
+            android:inputType="number"
+            android:maxLength="3"
+            android:text="@string/str_rgb_default_value"
+            android:textSize="@dimen/dim_rgbtext" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linlay_green"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_seekbar_height"
+        android:gravity="center|top"
+        android:paddingBottom="@dimen/dim_padding" >
+
+        <SeekBar
+            android:id="@+id/sb_green"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:max="@integer/int_maxbar"
+            android:paddingBottom="10dp"
+            android:progressDrawable="@color/green" />
+
+        <EditText
+            android:id="@+id/et_green"
+            android:layout_width="50dp"
+            android:layout_height="35dp"
+            android:ems="10"
+            android:inputType="number"
+            android:maxLength="3"
+            android:text="@string/str_rgb_default_value"
+            android:textSize="@dimen/dim_rgbtext" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linlay_blue"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_seekbar_height"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dim_padding" >
+
+        <SeekBar
+            android:id="@+id/sb_blue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.06"
+            android:max="@integer/int_maxbar"
+            android:paddingBottom="10dp"
+            android:progressDrawable="@color/blue" />
+
+        <EditText
+            android:id="@+id/et_blue"
+            android:layout_width="50dp"
+            android:layout_height="35dp"
+            android:ems="10"
+            android:inputType="number"
+            android:maxLength="3"
+            android:text="@string/str_rgb_default_value"
+            android:textSize="@dimen/dim_rgbtext" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linlay_color"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_colorbar_height"
+        android:gravity="center|center_horizontal|top"
+        android:paddingBottom="@dimen/dim_colorbar_padding"
+        android:paddingTop="@dimen/dim_colorbar_padding" >
+
+        <TextView
+            android:id="@+id/tv_hashtag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_hashtag"
+            android:textSize="@dimen/dim_hashtag" />
+
+        <EditText
+            android:id="@+id/et_hextext"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3.29"
+            android:digits="0123456789ABCDEF"
+            android:ems="10"
+            android:inputType="textCapCharacters"
+            android:maxLength="@integer/int_maxhex"
+            android:text="@string/str_hex_default_value"
+            android:textSize="@dimen/dim_hextext" >
+
+            <requestFocus />
+        </EditText>
+
+        <Spinner
+            android:id="@+id/sp_colornames"
+            android:layout_width="190dp"
+            android:layout_height="match_parent"
+            android:entries="@array/arr_x11_colornames_byalpha" />
+
+        <Button
+            android:id="@+id/btn_set"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.03"
+            android:text="@string/str_sethex"
+            android:textSize="@dimen/dim_buttontext" />
+
+        <Button
+            android:id="@+id/btn_black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:text="@string/str_black"
+            android:textSize="@dimen/dim_buttontext" />
+
+        <Button
+            android:id="@+id/btn_white"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:text="@string/str_white"
+            android:textSize="@dimen/dim_buttontext" />
+
+        <ToggleButton
+            android:id="@+id/tgbtn_parade_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center|center_horizontal"
+            android:text="@string/str_blank"
+            android:textOff="@string/str_parade"
+            android:textOn="@string/str_parade"
+            android:textSize="@dimen/dim_toggletext" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linlay_save"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_savebar_height"
+        android:gravity="center|center_horizontal|top"
+        android:paddingBottom="@dimen/dim_colorbar_padding"
+        android:paddingTop="@dimen/dim_colorbar_padding" >
+
+        <Button
+            android:id="@+id/btn_savebox1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/str_nothingsaved"
+            android:textSize="@dimen/dim_buttontext" />
+
+        <Button
+            android:id="@+id/btn_savebox2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/str_nothingsaved"
+            android:textSize="@dimen/dim_buttontext" />
+
+        <Button
+            android:id="@+id/btn_savebox3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/str_nothingsaved"
+            android:textSize="@dimen/dim_buttontext" />
+
+        <Button
+            android:id="@+id/btn_savebox4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/str_nothingsaved"
+            android:textSize="@dimen/dim_buttontext" />
+
+        <Button
+            android:id="@+id/btn_savebox5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/str_nothingsaved"
+            android:textSize="@dimen/dim_buttontext" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_x11colorname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_blank"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</LinearLayout>
