@@ -20,7 +20,7 @@
  * For more information, please refer to <http://unlicense.org/>
  */
 
-package com.github.pffy.hexrgbplus;
+package pffy.mobile.hexrgbplus;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -30,49 +30,39 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 /**
- * HexRgbPlusActivity - HEXRGB+ = HEXRGB plus some features.
+ * HexRgbPlusActivity - HEXRGB+ (Experimental)
  * 
  * @license http://unlicense.org/ The Unlicense
- * @version 2.7 (r7)
+ * @version 2.9 (r9)
  * @link https://github.com/pffy/
  * @author The Pffy Authors
  */
 
 public class HexRgbPlusActivity extends Activity {
 
-  private final int RGB_MIN_VALUE = 0;
-  private final int RGB_MAX_VALUE = 255;
-
   private int colorRed = 0;
   private int colorGreen = 0;
   private int colorBlue = 0;
 
   private boolean paradeMode = false;
-
-  private LinkedHashMap<String, String> colorNames = new LinkedHashMap<String, String>();
-
-  private int defaultColor = Color.WHITE;
-
-  private int colorPreset1 = this.defaultColor;
-  private int colorPreset2 = this.defaultColor;
-  private int colorPreset3 = this.defaultColor;
-  private int colorPreset4 = this.defaultColor;
-  private int colorPreset5 = this.defaultColor;
 
   private LinearLayout backdrop;
 
@@ -82,12 +72,6 @@ public class HexRgbPlusActivity extends Activity {
   private Button btn_set;
   private Button btn_black;
   private Button btn_white;
-
-  private Button btn_savebox1;
-  private Button btn_savebox2;
-  private Button btn_savebox3;
-  private Button btn_savebox4;
-  private Button btn_savebox5;
 
   private EditText et_r;
   private EditText et_g;
@@ -99,6 +83,24 @@ public class HexRgbPlusActivity extends Activity {
   private SeekBar sb_b;
 
   private ToggleButton tgb;
+
+  private Button btn_savebox1;
+  private Button btn_savebox2;
+  private Button btn_savebox3;
+  private Button btn_savebox4;
+  private Button btn_savebox5;
+
+  private LinkedHashMap<String, String> colorNames = new LinkedHashMap<String, String>();
+
+  private int defaultColor = Color.WHITE;
+
+  private int colorPreset1 = this.defaultColor;
+  private int colorPreset2 = this.defaultColor;
+  private int colorPreset3 = this.defaultColor;
+  private int colorPreset4 = this.defaultColor;
+  private int colorPreset5 = this.defaultColor;
+
+  private Spinner sp_colornames;
 
   // loads app UI, sets default preferences
   @Override
@@ -134,8 +136,9 @@ public class HexRgbPlusActivity extends Activity {
 
     this.tgb = (ToggleButton) findViewById(R.id.tgbtn_parade_mode);
 
+
     // GETDATA: load color names
-    this.init();
+    this.letsgo();
 
     // GETPREFS: get persistent preferences
     SharedPreferences shpref = this.getPreferences(Context.MODE_PRIVATE);
@@ -149,7 +152,7 @@ public class HexRgbPlusActivity extends Activity {
     this.paradeMode = shpref.getBoolean(getString(R.string.prefkey_bool_parade_mode), false);
 
     this.tgb.setChecked(this.paradeMode);
-    
+
     // get stored color preset values
     this.colorPreset1 =
         shpref.getInt(getString(R.string.prefkey_int_colorpreset_one), this.defaultColor);
@@ -197,7 +200,12 @@ public class HexRgbPlusActivity extends Activity {
     this.btn_savebox5.setOnLongClickListener(this.pokeHandler);
 
     this.tgb.setOnCheckedChangeListener(this.checkHandler);
-    this.backdrop.setOnLongClickListener(pokeHandler);
+    this.backdrop.setOnLongClickListener(this.pokeHandler);
+
+    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+      this.sp_colornames = (Spinner) findViewById(R.id.sp_colornames);
+      this.sp_colornames.setOnItemSelectedListener(this.choiceHandler);
+    }
 
     // UPDATE: updates layout based on properties
     this.updateByRgb();
@@ -352,9 +360,9 @@ public class HexRgbPlusActivity extends Activity {
 
     double rx, gx, bx;
 
-    rx = 0.213 * r / this.RGB_MAX_VALUE;
-    gx = 0.715 * g / this.RGB_MAX_VALUE;
-    bx = 0.072 * b / this.RGB_MAX_VALUE;
+    rx = 0.213 * r / 255;
+    gx = 0.715 * g / 255;
+    bx = 0.072 * b / 255;
 
     return (rx + gx + bx < 0.5) ? Color.WHITE : Color.BLACK;
   }
@@ -362,18 +370,18 @@ public class HexRgbPlusActivity extends Activity {
   // sets current color to black
   private void setToBlack() {
 
-    this.colorRed = this.RGB_MIN_VALUE;
-    this.colorGreen = this.RGB_MIN_VALUE;
-    this.colorBlue = this.RGB_MIN_VALUE;
+    this.colorRed = 0;
+    this.colorGreen = 0;
+    this.colorBlue = 0;
     this.updateByRgb();
   }
 
   // sets current color to white
   private void setToWhite() {
 
-    this.colorRed = this.RGB_MAX_VALUE;
-    this.colorGreen = this.RGB_MAX_VALUE;
-    this.colorBlue = this.RGB_MAX_VALUE;
+    this.colorRed = 255;
+    this.colorGreen = 255;
+    this.colorBlue = 255;
     this.updateByRgb();
   }
 
@@ -389,7 +397,7 @@ public class HexRgbPlusActivity extends Activity {
       // value is bounded between 0 and 255
       this.filterRgbInput(value);
 
-    } catch (Exception ex) {
+    } catch (NumberFormatException ex) {
       value = 0; // no problem. moving along.
     }
 
@@ -412,7 +420,7 @@ public class HexRgbPlusActivity extends Activity {
       // uppercase HEX
       hex = hex.toUpperCase(Locale.US);
 
-    } catch (Exception e) {
+    } catch (NumberFormatException e) {
 
       // unlikely Exception. anyways, reset to [00].
       hex = "00";
@@ -435,9 +443,9 @@ public class HexRgbPlusActivity extends Activity {
       rgb[1] = Color.green(color);
       rgb[2] = Color.blue(color);
 
-    } catch (Exception ex) {
+    } catch (IllegalArgumentException ex) {
       // no problem. just move on.
-      rgb[0] = rgb[1] = rgb[2] = this.RGB_MIN_VALUE;
+      rgb[0] = rgb[1] = rgb[2] = 0;
     }
 
     return rgb;
@@ -467,7 +475,7 @@ public class HexRgbPlusActivity extends Activity {
 
   // returns integers from 0 to 255.
   private int filterRgbInput(int value) {
-    return Math.max(this.RGB_MIN_VALUE, Math.min(this.RGB_MAX_VALUE, value));
+    return Math.max(0, Math.min(255, value));
   }
 
   // returns export string from a color
@@ -493,13 +501,13 @@ public class HexRgbPlusActivity extends Activity {
   }
 
   // activity data startup method
-  private void init() {
+  private void letsgo() {
 
     // delimiter
     String delimiter = ":";
     String[] hexNameArray;
 
-    for (String hexAndColorName : getResources().getStringArray(R.array.arr_x11_colornames)) {
+    for (String hexAndColorName : getResources().getStringArray(R.array.arr_x11_colornames_byhex)) {
       hexNameArray = hexAndColorName.split(delimiter);
       colorNames.put(hexNameArray[0], hexNameArray[1]);
     }
@@ -847,5 +855,52 @@ public class HexRgbPlusActivity extends Activity {
       updateByRgb();
     }
   };
-}
 
+  // handles spinner choices
+  private AdapterView.OnItemSelectedListener choiceHandler =
+      new AdapterView.OnItemSelectedListener() {
+
+        @Override
+        public void onItemSelected(AdapterView<?> av, View v, int pos, long id) {
+
+          String str;
+          String x11name;
+          String hex;
+
+          switch (av.getId()) {
+
+            case R.id.sp_colornames:
+
+              if (pos > 0) {
+
+                str = getResources().getStringArray(R.array.arr_x11_colornames_byalpha)[pos];
+                x11name = str.split(":")[0];
+                hex = str.split(":")[1];
+                et_hex.setText(hex);
+
+                updateByHex();
+
+                Toast.makeText(getBaseContext(),
+                    x11name + " " + getResources().getString(R.string.str_colorname_selected),
+                    Toast.LENGTH_SHORT).show();
+
+              } else {
+
+                Toast.makeText(getBaseContext(),
+                    getResources().getString(R.string.str_colorname_tip), Toast.LENGTH_SHORT)
+                    .show();
+              }
+
+            default:
+              // do nothing, for now
+              break;
+          }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> av) {
+          // leave empty
+        }
+      };
+
+}
