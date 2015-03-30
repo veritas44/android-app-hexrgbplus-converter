@@ -51,7 +51,7 @@ import android.widget.ToggleButton;
  * HexRgbPlusActivity - HEXRGB+ (Experimental)
  * 
  * @license http://unlicense.org/ The Unlicense
- * @version 2.9 (r9)
+ * @version 2.10 (r10)
  * @link https://github.com/pffy/
  * @author The Pffy Authors
  */
@@ -198,10 +198,10 @@ public class HexRgbPlusActivity extends Activity {
     this.btn_savebox3.setOnLongClickListener(this.pokeHandler);
     this.btn_savebox4.setOnLongClickListener(this.pokeHandler);
     this.btn_savebox5.setOnLongClickListener(this.pokeHandler);
-    
+
     this.btn_black.setOnLongClickListener(pokeHandler);
     this.btn_white.setOnLongClickListener(pokeHandler);
-    
+
     this.tgb.setOnCheckedChangeListener(this.checkHandler);
     this.backdrop.setOnLongClickListener(this.pokeHandler);
 
@@ -819,32 +819,32 @@ public class HexRgbPlusActivity extends Activity {
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-      int dp = 0;
-
       // if user touch
       if (fromUser) {
 
         // if parade mode
         if (paradeMode) {
+          
+          int delta = 0;
 
           switch (seekBar.getId()) {
             case R.id.sb_red:
               // delta = current progress - previous progress
-              dp = progress - colorRed;
+              delta = progress - colorRed;
               colorRed = progress;
-              colorBlue = filterRgbInput(colorBlue + dp);
-              colorGreen = filterRgbInput(colorGreen + dp);
+              colorBlue = filterRgbInput(colorBlue + delta);
+              colorGreen = filterRgbInput(colorGreen + delta);
               break;
             case R.id.sb_green:
-              dp = progress - colorGreen;
-              colorRed = filterRgbInput(colorRed + dp);
+              delta = progress - colorGreen;
+              colorRed = filterRgbInput(colorRed + delta);
               colorGreen = progress;
-              colorBlue = filterRgbInput(colorBlue + dp);
+              colorBlue = filterRgbInput(colorBlue + delta);
               break;
             case R.id.sb_blue:
-              dp = progress - colorBlue;
-              colorRed = filterRgbInput(colorRed + dp);
-              colorGreen = filterRgbInput(colorGreen + dp);
+              delta = progress - colorBlue;
+              colorRed = filterRgbInput(colorRed + delta);
+              colorGreen = filterRgbInput(colorGreen + delta);
               colorBlue = progress;
               break;
             default:
