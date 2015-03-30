@@ -198,7 +198,10 @@ public class HexRgbPlusActivity extends Activity {
     this.btn_savebox3.setOnLongClickListener(this.pokeHandler);
     this.btn_savebox4.setOnLongClickListener(this.pokeHandler);
     this.btn_savebox5.setOnLongClickListener(this.pokeHandler);
-
+    
+    this.btn_black.setOnLongClickListener(pokeHandler);
+    this.btn_white.setOnLongClickListener(pokeHandler);
+    
     this.tgb.setOnCheckedChangeListener(this.checkHandler);
     this.backdrop.setOnLongClickListener(this.pokeHandler);
 
@@ -666,6 +669,22 @@ public class HexRgbPlusActivity extends Activity {
 
       switch (id) {
 
+        case R.id.btn_white:
+          colorPreset1 = Color.WHITE;
+          colorPreset2 = Color.WHITE;
+          colorPreset3 = Color.WHITE;
+          colorPreset4 = Color.WHITE;
+          colorPreset5 = Color.WHITE;
+          updateByHex();
+          break;
+        case R.id.btn_black:
+          colorPreset1 = Color.BLACK;
+          colorPreset2 = Color.BLACK;
+          colorPreset3 = Color.BLACK;
+          colorPreset4 = Color.BLACK;
+          colorPreset5 = Color.BLACK;
+          updateByHex();
+          break;
         case R.id.btn_savebox1:
         case R.id.btn_savebox2:
         case R.id.btn_savebox3:
