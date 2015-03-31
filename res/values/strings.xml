@@ -30,11 +30,15 @@
 
     <!-- button save box set -->
     <string name="str_nothingsaved">--</string>
+    
+    <!-- color palette reset -->    <string name="str_fadetoblack">All color palette boxes set to BLACK.</string>
+    <string name="str_fadetowhite">All color palette boxes set to WHITE.</string>
 
+    <!-- color name -->
     <string name="str_colorname_tip">Use drop down menu to choose a new color.</string>
     <string name="str_colorname_selected"> selected.</string>
-    
-<!--       Tips for toast.  -->
+
+    <!-- Tips for toast. -->
 
 
     <!-- TIP: parade mode -->

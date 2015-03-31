@@ -51,7 +51,7 @@ import android.widget.ToggleButton;
  * HexRgbPlusActivity - HEXRGB+ (Experimental)
  * 
  * @license http://unlicense.org/ The Unlicense
- * @version 2.10 (r10)
+ * @version 2.11 (r11)
  * @link https://github.com/pffy/
  * @author The Pffy Authors
  */
@@ -676,6 +676,10 @@ public class HexRgbPlusActivity extends Activity {
           colorPreset4 = Color.WHITE;
           colorPreset5 = Color.WHITE;
           updateByHex();
+
+          Toast.makeText(getBaseContext(), getString(R.string.str_fadetowhite) + "",
+              Toast.LENGTH_SHORT).show();
+
           break;
         case R.id.btn_black:
           colorPreset1 = Color.BLACK;
@@ -684,6 +688,9 @@ public class HexRgbPlusActivity extends Activity {
           colorPreset4 = Color.BLACK;
           colorPreset5 = Color.BLACK;
           updateByHex();
+
+          Toast.makeText(getBaseContext(), getString(R.string.str_fadetoblack) + "",
+              Toast.LENGTH_SHORT).show();
           break;
         case R.id.btn_savebox1:
         case R.id.btn_savebox2:
@@ -824,7 +831,7 @@ public class HexRgbPlusActivity extends Activity {
 
         // if parade mode
         if (paradeMode) {
-          
+
           int delta = 0;
 
           switch (seekBar.getId()) {
