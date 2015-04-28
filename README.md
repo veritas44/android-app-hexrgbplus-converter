@@ -1,8 +1,14 @@
-android-hexrgbplus
-==================
+## HEXRGB+
+  + Experimental color picker converter.
+  + Requires Android 2.2 Froyo (API 8 or better)
+  + Need simple? Try: https://github.com/pffy/android-hexrgb
 
-Another Hexadecimal-RGB color picker and converter. This is HEXRGB plus some features.
 
-+ [HEXRGB+](https://play.google.com/store/apps/details?id=pffy.mobile.hexrgbplus) from Google Play Store.
 
-[![HEXRGB+ in Google Play](https://cloud.githubusercontent.com/assets/7258373/6883954/f6895d2c-d585-11e4-997f-d04895d3a033.png)](https://play.google.com/store/apps/details?id=pffy.mobile.hexrgbplus)
+## GOOGLE PLAY STORE
+
++ [HEXRGB+](https://play.google.com/store/apps/details?id=pffy.mobile.hexrgbplus) now in Google Play Store.
+
+[![HEXRGB+](https://cloud.githubusercontent.com/assets/7258373/6883954/f6895d2c-d585-11e4-997f-d04895d3a033.png)](https://play.google.com/store/apps/details?id=pffy.mobile.hexrgbplus)
+
+
