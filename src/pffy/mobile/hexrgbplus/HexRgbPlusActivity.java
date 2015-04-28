@@ -521,7 +521,7 @@ public class HexRgbPlusActivity extends Activity {
    * Event Listeners - Nice, clean way to respond to user wants and needs.
    */
 
-  // handles keys
+  // Handles keys
   private View.OnKeyListener mKeyHandler = new View.OnKeyListener() {
 
     @Override
@@ -541,7 +541,7 @@ public class HexRgbPlusActivity extends Activity {
     }
   };
 
-  // handles edits
+  // Handles edits
   private TextView.OnEditorActionListener mEditHandler = new TextView.OnEditorActionListener() {
 
     @Override
@@ -602,7 +602,7 @@ public class HexRgbPlusActivity extends Activity {
     }
   };
 
-  // handles checks and unchecks
+  // Handles checks and unchecks
   private CompoundButton.OnCheckedChangeListener mCheckHandler =
       new CompoundButton.OnCheckedChangeListener() {
 
@@ -620,7 +620,7 @@ public class HexRgbPlusActivity extends Activity {
         }
       };
 
-  // handles focus changes
+  // Handles focus changes
   private View.OnFocusChangeListener mFocusHandler = new View.OnFocusChangeListener() {
 
     @Override
@@ -656,7 +656,7 @@ public class HexRgbPlusActivity extends Activity {
     }
   };
 
-  // handles pokes
+  // Handles pokes
   private View.OnLongClickListener mPokeHandler = new View.OnLongClickListener() {
 
     @Override
