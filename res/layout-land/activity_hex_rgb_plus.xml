@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linlay_background"
+    android:id="@+id/linearlayout_app"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,14 +11,14 @@
     tools:context=".HexRgbPlusActivity" >
 
     <LinearLayout
-        android:id="@+id/linlay_red"
+        android:id="@+id/linearlayout_redbox"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dim_seekbar_height"
         android:gravity="center|top"
         android:paddingBottom="@dimen/dim_padding" >
 
         <SeekBar
-            android:id="@+id/sb_red"
+            android:id="@+id/seekbar_red"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.15"
@@ -27,7 +27,7 @@
             android:progressDrawable="@color/red" />
 
         <EditText
-            android:id="@+id/et_red"
+            android:id="@+id/edittext_red"
             android:layout_width="50dp"
             android:layout_height="35dp"
             android:ems="10"
@@ -39,14 +39,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linlay_green"
+        android:id="@+id/linearlayout_greenbox"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dim_seekbar_height"
         android:gravity="center|top"
         android:paddingBottom="@dimen/dim_padding" >
 
         <SeekBar
-            android:id="@+id/sb_green"
+            android:id="@+id/seekbar_green"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
@@ -55,7 +55,7 @@
             android:progressDrawable="@color/green" />
 
         <EditText
-            android:id="@+id/et_green"
+            android:id="@+id/edittext_green"
             android:layout_width="50dp"
             android:layout_height="35dp"
             android:ems="10"
@@ -67,14 +67,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linlay_blue"
+        android:id="@+id/linearlayout_bluebox"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dim_seekbar_height"
         android:gravity="center"
         android:paddingBottom="@dimen/dim_padding" >
 
         <SeekBar
-            android:id="@+id/sb_blue"
+            android:id="@+id/seekbar_blue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.06"
@@ -83,7 +83,7 @@
             android:progressDrawable="@color/blue" />
 
         <EditText
-            android:id="@+id/et_blue"
+            android:id="@+id/edittext_blue"
             android:layout_width="50dp"
             android:layout_height="35dp"
             android:ems="10"
@@ -95,7 +95,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linlay_color"
+        android:id="@+id/linearlayout_colorbox"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dim_colorbar_height"
         android:gravity="center|center_horizontal|top"
@@ -103,14 +103,14 @@
         android:paddingTop="@dimen/dim_colorbar_padding" >
 
         <TextView
-            android:id="@+id/tv_hashtag"
+            android:id="@+id/textview_hashtag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/str_hashtag"
             android:textSize="@dimen/dim_hashtag" />
 
         <EditText
-            android:id="@+id/et_hextext"
+            android:id="@+id/edittext_hextext"
             android:layout_width="72dp"
             android:layout_height="wrap_content"
             android:layout_weight="3.29"
@@ -125,13 +125,13 @@
         </EditText>
 
         <Spinner
-            android:id="@+id/sp_colornames"
+            android:id="@+id/spinner_colornames"
             android:layout_width="190dp"
             android:layout_height="match_parent"
             android:entries="@array/arr_x11_colornames_byalpha" />
 
         <Button
-            android:id="@+id/btn_set"
+            android:id="@+id/button_set"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.03"
@@ -139,7 +139,7 @@
             android:textSize="@dimen/dim_buttontext" />
 
         <Button
-            android:id="@+id/btn_black"
+            android:id="@+id/button_black"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight=".3"
@@ -147,7 +147,7 @@
             android:textSize="@dimen/dim_buttontext" />
 
         <Button
-            android:id="@+id/btn_white"
+            android:id="@+id/button_white"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight=".3"
@@ -155,7 +155,7 @@
             android:textSize="@dimen/dim_buttontext" />
 
         <ToggleButton
-            android:id="@+id/tgbtn_parade_mode"
+            android:id="@+id/togglebutton_parade_mode"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center|center_horizontal"
@@ -167,7 +167,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linlay_save"
+        android:id="@+id/linearlayout_savebox"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dim_savebar_height"
         android:gravity="center|center_horizontal|top"
@@ -175,48 +175,54 @@
         android:paddingTop="@dimen/dim_colorbar_padding" >
 
         <Button
-            android:id="@+id/btn_savebox1"
+            android:id="@+id/button_savebox1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/str_nothingsaved"
-            android:textSize="@dimen/dim_buttontext" />
+            android:textSize="@dimen/dim_buttontext"
+            tools:ignore="ButtonStyle" />
 
         <Button
-            android:id="@+id/btn_savebox2"
+            android:id="@+id/button_savebox2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/str_nothingsaved"
-            android:textSize="@dimen/dim_buttontext" />
+            android:textSize="@dimen/dim_buttontext"
+            tools:ignore="ButtonStyle" />
 
         <Button
-            android:id="@+id/btn_savebox3"
+            android:id="@+id/button_savebox3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/str_nothingsaved"
-            android:textSize="@dimen/dim_buttontext" />
+            android:textSize="@dimen/dim_buttontext"
+            tools:ignore="ButtonStyle" />
 
         <Button
-            android:id="@+id/btn_savebox4"
+            android:id="@+id/button_savebox4"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/str_nothingsaved"
-            android:textSize="@dimen/dim_buttontext" />
+            android:textSize="@dimen/dim_buttontext"
+            tools:ignore="ButtonStyle" />
 
         <Button
-            android:id="@+id/btn_savebox5"
+            android:id="@+id/button_savebox5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/str_nothingsaved"
-            android:textSize="@dimen/dim_buttontext" />
+            android:textSize="@dimen/dim_buttontext"
+            tools:ignore="ButtonStyle" />
+
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_x11colorname"
+        android:id="@+id/textview_colorname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/str_blank"
