@@ -30,21 +30,24 @@
 
     <!-- button save box set -->
     <string name="str_nothingsaved">--</string>
-    
-    <!-- color palette reset -->    <string name="str_fadetoblack">All color palette boxes set to BLACK.</string>
+
+    <!-- color palette reset -->
+    <string name="str_fadetoblack">All color palette boxes set to BLACK.</string>
     <string name="str_fadetowhite">All color palette boxes set to WHITE.</string>
 
     <!-- color name -->
     <string name="str_colorname_tip">Use drop down menu to choose a new color.</string>
     <string name="str_colorname_selected"> selected.</string>
 
-    <!-- Tips for toast. -->
-
-
     <!-- TIP: parade mode -->
     <string name="str_parademode_tip">Parade Mode: Drag any slider, others follow.</string>
 
     <!-- TIP: Savebox success. -->
     <string name="str_savebox_tip">Color saved.</string>
+    <string name="str_action_share">Send Palette to:</string>
+
+    <!-- placeholders -->
+    <string name="str_placeholder_hex">000000</string>
+    <string name="str_placeholder_rgb">0</string>
 
 </resources>

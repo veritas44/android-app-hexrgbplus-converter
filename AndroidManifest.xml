@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pffy.mobile.hexrgbplus"
-    android:versionCode="15"
-    android:versionName="2.15" xmlns:tools="http://schemas.android.com/tools">
+    android:versionCode="17"
+    android:versionName="2.17" xmlns:tools="http://schemas.android.com/tools">
 
     <uses-sdk
         android:minSdkVersion="15"

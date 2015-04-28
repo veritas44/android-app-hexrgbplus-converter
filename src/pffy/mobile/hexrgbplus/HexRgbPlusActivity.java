@@ -1,21 +1,23 @@
-/*
+/**
  * This is free and unencumbered software released into the public domain.
  * 
- * Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either
- * in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and
- * by any means.
+ * Anyone is free to copy, modify, publish, use, compile, sell, or distribute
+ * this software, either in source code form or as a compiled binary, for any
+ * purpose, commercial or non-commercial, and by any means.
  * 
- * In jurisdictions that recognize copyright laws, the author or authors of this software dedicate
- * any and all copyright interest in the software to the public domain. We make this dedication for
- * the benefit of the public at large and to the detriment of our heirs and successors. We intend
- * this dedication to be an overt act of relinquishment in perpetuity of all present and future
+ * In jurisdictions that recognize copyright laws, the author or authors of this
+ * software dedicate any and all copyright interest in the software to the
+ * public domain. We make this dedication for the benefit of the public at large
+ * and to the detriment of our heirs and successors. We intend this dedication
+ * to be an overt act of relinquishment in perpetuity of all present and future
  * rights to this software under copyright law.
  * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
- * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * 
  * For more information, please refer to <http://unlicense.org/>
  */
@@ -27,6 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.ClipDescription;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,7 +38,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -51,9 +53,9 @@ import android.widget.ToggleButton;
  * HexRgbPlusActivity - HEXRGB+ (Experimental)
  * 
  * @license http://unlicense.org/ The Unlicense
- * @version 2.15 (r15)
- * @link https://github.com/pffy/
- * @author The Pffy Authors
+ * @version 2.17 (r17)
+ * @link https://github.com/pffy/android-hexrgbplus
+ * @author https://github.com/pffy The Pffy Authors
  */
 
 public class HexRgbPlusActivity extends Activity {
@@ -90,7 +92,8 @@ public class HexRgbPlusActivity extends Activity {
   private Button mButtonSaveBox4;
   private Button mButtonSaveBox5;
 
-  private LinkedHashMap<String, String> mLinkedHashMapColorNames = new LinkedHashMap<String, String>();
+  private LinkedHashMap<String, String> mLinkedHashMapColorNames =
+      new LinkedHashMap<String, String>();
 
   private int mDefaultColor = Color.WHITE;
 
@@ -105,11 +108,9 @@ public class HexRgbPlusActivity extends Activity {
   // loads app UI, sets default preferences
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_hex_rgb_plus);
 
-    // GETLAYOUT: Views you can use
     this.mLinearLayoutApp = (LinearLayout) findViewById(R.id.linearlayout_app);
 
     this.mTextViewHashTag = (TextView) findViewById(R.id.textview_hashtag);
@@ -135,25 +136,17 @@ public class HexRgbPlusActivity extends Activity {
     this.mButtonSaveBox5 = (Button) findViewById(R.id.button_savebox5);
 
     this.mToggleButtonParadeMode = (ToggleButton) findViewById(R.id.togglebutton_parade_mode);
-
-
-    // GETDATA: load color names
     this.letsgo();
 
-    // GETPREFS: get persistent preferences
+    // Loads persistent data
     SharedPreferences shpref = this.getPreferences(Context.MODE_PRIVATE);
-
-    // get stored RGB values
     this.mColorRed = shpref.getInt(getString(R.string.prefkey_int_color_red), 0);
     this.mColorGreen = shpref.getInt(getString(R.string.prefkey_int_color_green), 0);
     this.mColorBlue = shpref.getInt(getString(R.string.prefkey_int_color_blue), 0);
-
-    // get stored parade mode status
     this.mParadeMode = shpref.getBoolean(getString(R.string.prefkey_bool_parade_mode), false);
-
     this.mToggleButtonParadeMode.setChecked(this.mParadeMode);
 
-    // get stored color preset values
+    // TODO: make the save box data a StringSet?
     this.mColorPreset1 =
         shpref.getInt(getString(R.string.prefkey_int_colorpreset_one), this.mDefaultColor);
     this.mColorPreset2 =
@@ -165,19 +158,14 @@ public class HexRgbPlusActivity extends Activity {
     this.mColorPreset5 =
         shpref.getInt(getString(R.string.prefkey_int_colorpreset_five), this.mDefaultColor);
 
-    // OBSERVE: Event listeners
+
+    // Event Listeners
     this.mEditTextHex.setOnFocusChangeListener(this.mFocusHandler);
     this.mEditTextHex.setOnKeyListener(this.mKeyHandler);
 
     this.mEditTextRed.setOnFocusChangeListener(this.mFocusHandler);
     this.mEditTextGreen.setOnFocusChangeListener(this.mFocusHandler);
     this.mEditTextBlue.setOnFocusChangeListener(this.mFocusHandler);
-
-    this.mEditTextRed.setOnEditorActionListener(this.mEditHandler);
-    this.mEditTextGreen.setOnEditorActionListener(this.mEditHandler);
-    this.mEditTextBlue.setOnEditorActionListener(this.mEditHandler);
-
-    this.mEditTextHex.setOnEditorActionListener(this.mEditHandler);
 
     this.mSeekBarRed.setOnSeekBarChangeListener(this.mSeekHandler);
     this.mSeekBarGreen.setOnSeekBarChangeListener(this.mSeekHandler);
@@ -210,28 +198,23 @@ public class HexRgbPlusActivity extends Activity {
       this.mSpinnerColorNames.setOnItemSelectedListener(this.mChoiceHandler);
     }
 
-    // UPDATE: updates layout based on properties
     this.updateByRgb();
   }
 
-  // SETPREFS: saves persistently, just before app quits
+  // Saves persistent data
   @Override
-  protected void onDestroy() {
-
-    super.onDestroy();
+  protected void onPause() {
+    super.onPause();
 
     SharedPreferences shpref = this.getPreferences(Context.MODE_PRIVATE);
     SharedPreferences.Editor editor = shpref.edit();
 
-    // store RGB values
     editor.putInt(getString(R.string.prefkey_int_color_red), this.mColorRed);
     editor.putInt(getString(R.string.prefkey_int_color_green), this.mColorGreen);
     editor.putInt(getString(R.string.prefkey_int_color_blue), this.mColorBlue);
 
-    // store parade mode status
     editor.putBoolean(getString(R.string.prefkey_bool_parade_mode), this.mParadeMode);
 
-    // store saved color preset values
     editor.putInt(getString(R.string.prefkey_int_colorpreset_one), this.mColorPreset1);
     editor.putInt(getString(R.string.prefkey_int_colorpreset_two), this.mColorPreset2);
     editor.putInt(getString(R.string.prefkey_int_colorpreset_three), this.mColorPreset3);
@@ -241,60 +224,55 @@ public class HexRgbPlusActivity extends Activity {
     editor.commit();
   }
 
-  // SAVESTATE: Saves the app instance state
+  // Saves instance state
   @Override
   protected void onSaveInstanceState(Bundle savedInstanceState) {
-
     super.onSaveInstanceState(savedInstanceState);
 
-    // save RGB colors
     savedInstanceState.putInt(getString(R.string.prefkey_int_color_red), this.mColorRed);
     savedInstanceState.putInt(getString(R.string.prefkey_int_color_green), this.mColorGreen);
     savedInstanceState.putInt(getString(R.string.prefkey_int_color_blue), this.mColorBlue);
 
-    // save parade mode status
     savedInstanceState.putBoolean(getString(R.string.prefkey_bool_parade_mode), this.mParadeMode);
 
-    // save color preset values
     savedInstanceState.putInt(getString(R.string.prefkey_int_colorpreset_one), this.mColorPreset1);
     savedInstanceState.putInt(getString(R.string.prefkey_int_colorpreset_two), this.mColorPreset2);
-    savedInstanceState.putInt(getString(R.string.prefkey_int_colorpreset_three), this.mColorPreset3);
+    savedInstanceState
+        .putInt(getString(R.string.prefkey_int_colorpreset_three), this.mColorPreset3);
     savedInstanceState.putInt(getString(R.string.prefkey_int_colorpreset_four), this.mColorPreset4);
     savedInstanceState.putInt(getString(R.string.prefkey_int_colorpreset_five), this.mColorPreset5);
   }
 
-  // GETSTATE: Gets the app instance state
+  // Loads instance state
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
-
     super.onRestoreInstanceState(savedInstanceState);
 
-    // get RGB colors
     this.mColorRed = savedInstanceState.getInt(getString(R.string.prefkey_int_color_red));
     this.mColorGreen = savedInstanceState.getInt(getString(R.string.prefkey_int_color_green));
     this.mColorBlue = savedInstanceState.getInt(getString(R.string.prefkey_int_color_blue));
 
-    // get parade mode status
     this.mParadeMode = savedInstanceState.getBoolean(getString(R.string.prefkey_bool_parade_mode));
 
-    // get color preset values
     this.mColorPreset1 = savedInstanceState.getInt(getString(R.string.prefkey_int_colorpreset_one));
     this.mColorPreset2 = savedInstanceState.getInt(getString(R.string.prefkey_int_colorpreset_two));
     this.mColorPreset3 =
         savedInstanceState.getInt(getString(R.string.prefkey_int_colorpreset_three));
-    this.mColorPreset4 = savedInstanceState.getInt(getString(R.string.prefkey_int_colorpreset_four));
-    this.mColorPreset5 = savedInstanceState.getInt(getString(R.string.prefkey_int_colorpreset_five));
+    this.mColorPreset4 =
+        savedInstanceState.getInt(getString(R.string.prefkey_int_colorpreset_four));
+    this.mColorPreset5 =
+        savedInstanceState.getInt(getString(R.string.prefkey_int_colorpreset_five));
 
     this.updateByRgb();
   }
 
-  // updates color based on hexadecimal input
+  // Updates color based on hexadecimal input
   private void updateByHex() {
 
     String hexString;
     int[] rgb = new int[3];
 
-    hexString = this.mEditTextHex.getText().toString();
+    hexString = getHexInput();
     rgb = hex2rgb(hexString);
 
     this.mColorRed = rgb[0];
@@ -304,7 +282,23 @@ public class HexRgbPlusActivity extends Activity {
     this.updateByRgb();
   }
 
-  // updates color based on RGB input
+  // Returns hexadecimal string input
+  private String getHexInput() {
+
+    String str = getString(R.string.str_placeholder_hex);
+
+    if (this.mEditTextHex != null) {
+      str = this.mEditTextHex.getText().toString();
+
+      if (!str.isEmpty()) {
+        return str;
+      }
+    }
+
+    return str;
+  }
+
+  // Updates color based on RGB input
   private void updateByRgb() {
 
     int r, g, b;
@@ -325,7 +319,7 @@ public class HexRgbPlusActivity extends Activity {
     this.updateBackground();
   }
 
-  // updates background to match color, keeps hashtag legible
+  // Updates background to match color, keeps hashtag legible
   private void updateBackground() {
 
     int r, g, b;
@@ -342,15 +336,18 @@ public class HexRgbPlusActivity extends Activity {
     this.mLinearLayoutApp.setBackgroundColor(Color.rgb(r, g, b));
     this.mTextViewHashTag.setTextColor(contrastColor);
 
-    this.mTextViewColorName.setText("");
-
     // update X11 color names output (if any)
+    this.mTextViewColorName.setText("");
     if (this.mLinkedHashMapColorNames.containsKey(hexColor)) {
       this.mTextViewColorName.setText(this.mLinkedHashMapColorNames.get(hexColor));
       this.mTextViewColorName.setTextColor(contrastColor);
     }
 
-    // update save boxes
+    this.updatePalette();
+  }
+
+  // Updates palette of color presets
+  private void updatePalette() {
     this.mButtonSaveBox1.setBackgroundColor(this.mColorPreset1);
     this.mButtonSaveBox2.setBackgroundColor(this.mColorPreset2);
     this.mButtonSaveBox3.setBackgroundColor(this.mColorPreset3);
@@ -358,7 +355,7 @@ public class HexRgbPlusActivity extends Activity {
     this.mButtonSaveBox5.setBackgroundColor(this.mColorPreset5);
   }
 
-  // determines whether hashtag should be black or white
+  // Determines whether hashtag (#) color should be black or white
   private int getContrastColor(int r, int g, int b) {
 
     double rx, gx, bx;
@@ -370,44 +367,42 @@ public class HexRgbPlusActivity extends Activity {
     return (rx + gx + bx < 0.5) ? Color.WHITE : Color.BLACK;
   }
 
-  // sets current color to black
+  // Resets current color to black
   private void setToBlack() {
-
     this.mColorRed = 0;
     this.mColorGreen = 0;
     this.mColorBlue = 0;
     this.updateByRgb();
   }
 
-  // sets current color to white
+  // Resets current color to white
   private void setToWhite() {
-
     this.mColorRed = 255;
     this.mColorGreen = 255;
     this.mColorBlue = 255;
     this.updateByRgb();
   }
 
-  // filters RGB color input value
-  private int processRgbInput(String input) {
-
-    int value = 0;
-
-    try {
-
-      value = Integer.parseInt(input);
-
-      // value is bounded between 0 and 255
-      this.filterRgbInput(value);
-
-    } catch (NumberFormatException ex) {
-      value = 0; // no problem. moving along.
-    }
-
-    return value;
+  // Returns a bounded RGB color value from String input
+  private int getRgbFromInput(String str) {
+    return this.getBoundedRgbColorValue(this.getIntegerFromString(str));
   }
 
-  // converts decimal number to nicely-formatted hexadecimal number
+  // Returns a bounded RGB color value
+  private int getBoundedRgbColorValue(int value) {
+    return Math.max(0, Math.min(255, value));
+  }
+
+  // Returns an integer from a string input
+  private int getIntegerFromString(String str) {
+    try {
+      return Integer.valueOf(str).intValue();
+    } catch (NumberFormatException nfe) {
+      return 0;
+    }
+  }
+
+  // Converts decimal number to nicely-formatted hexadecimal number
   private String dec2hex(int value) {
 
     String hex;
@@ -424,69 +419,47 @@ public class HexRgbPlusActivity extends Activity {
       hex = hex.toUpperCase(Locale.US);
 
     } catch (NumberFormatException e) {
-
       // unlikely Exception. anyways, reset to [00].
       hex = "00";
+    } catch (StringIndexOutOfBoundsException sioobe) {
+      hex = "00"; // more likely on strange input
     }
 
     return hex;
   }
 
-  // converts hexadecimal into RGB color values
+  // Converts hexadecimal into RGB color values
   private int[] hex2rgb(String hex) {
-
-    int color;
-    int[] rgb = new int[3];
-
     try {
-
-      color = Color.parseColor("#" + hex);
-
-      rgb[0] = Color.red(color);
-      rgb[1] = Color.green(color);
-      rgb[2] = Color.blue(color);
-
+      int color = Color.parseColor("#" + hex);
+      return new int[] {Color.red(color), Color.green(color), Color.blue(color)};
     } catch (IllegalArgumentException ex) {
-      // no problem. just move on.
-      rgb[0] = rgb[1] = rgb[2] = 0;
+      return new int[] {0, 0, 0};
     }
-
-    return rgb;
   }
 
-  // converts directly from color to rgb array
+  // Converts from color to RGB Integer array
   private Integer[] getRgbFromColor(int color) {
-
-    Integer[] rgb = new Integer[3];
-    rgb[0] = Color.red(color);
-    rgb[1] = Color.green(color);
-    rgb[2] = Color.blue(color);
-
-    return rgb;
+    return new Integer[] {Color.red(color), Color.green(color), Color.blue(color)};
   }
 
-  // converts directly from color to hex
+  // Converts from color to hex
   private String getHexFromColor(int color) {
     return "#" + dec2hex(Color.red(color)) + dec2hex(Color.green(color))
         + dec2hex(Color.blue(color));
   }
 
-  // converts RGB color values into hexadecimal
+  // Converts RGB color values into hexadecimal
   private String rgb2hex(int r, int g, int b) {
-    return dec2hex(r) + "" + dec2hex(g) + "" + dec2hex(b);
+    return "" + dec2hex(r) + "" + dec2hex(g) + "" + dec2hex(b);
   }
 
-  // returns integers from 0 to 255.
-  private int filterRgbInput(int value) {
-    return Math.max(0, Math.min(255, value));
-  }
-
-  // returns export string from a color
+  // Returns export string from a color
   private String buildExportString(int color) {
     return Arrays.asList(getRgbFromColor(color)) + " " + getHexFromColor(color);
   }
 
-  // exports palette with Intent, loading Chooser
+  // Exports palette with Intent, loading Chooser
   private void sendPaletteByIntent() {
 
     String str = "";
@@ -499,14 +472,13 @@ public class HexRgbPlusActivity extends Activity {
     Intent sendIntent = new Intent();
     sendIntent.setAction(Intent.ACTION_SEND);
     sendIntent.putExtra(Intent.EXTRA_TEXT, str);
-    sendIntent.setType("text/plain");
-    startActivity(Intent.createChooser(sendIntent, "Send Palette to:"));
+    sendIntent.setType(ClipDescription.MIMETYPE_TEXT_PLAIN);
+    startActivity(Intent.createChooser(sendIntent, getString(R.string.str_action_share)));
   }
 
-  // activity data startup method
+  // Loads important data
   private void letsgo() {
 
-    // delimiter
     String delimiter = ":";
     String[] hexNameArray;
 
@@ -541,68 +513,7 @@ public class HexRgbPlusActivity extends Activity {
     }
   };
 
-  // Handles edits
-  private TextView.OnEditorActionListener mEditHandler = new TextView.OnEditorActionListener() {
-
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-      int viewId = 0;
-      int value = 0;
-
-      String hexString;
-      EditText et;
-
-      viewId = v.getId();
-      et = (EditText) findViewById(viewId);
-
-      hexString = et.getText().toString();
-      value = processRgbInput(hexString);
-
-      try {
-
-        switch (actionId) {
-          case EditorInfo.IME_ACTION_NEXT:
-          case EditorInfo.IME_ACTION_DONE:
-          case EditorInfo.IME_ACTION_GO:
-
-            switch (viewId) {
-              case R.id.edittext_red:
-                mColorRed = value;
-                break;
-              case R.id.edittext_green:
-                mColorGreen = value;
-                break;
-              case R.id.edittext_blue:
-                mColorBlue = value;
-                break;
-              case R.id.edittext_hextext:
-                updateByHex();
-                break;
-              default:
-                // do nothing
-                break;
-            }
-
-            updateByRgb();
-
-            break;
-          default:
-            // do nothing
-            break;
-        }
-
-        return true;
-
-      } catch (Exception ex) {
-        // do nothing. relax.
-      }
-
-      return false;
-    }
-  };
-
-  // Handles checks and unchecks
+  // Handles checks
   private CompoundButton.OnCheckedChangeListener mCheckHandler =
       new CompoundButton.OnCheckedChangeListener() {
 
@@ -620,7 +531,7 @@ public class HexRgbPlusActivity extends Activity {
         }
       };
 
-  // Handles focus changes
+  // Handles focus
   private View.OnFocusChangeListener mFocusHandler = new View.OnFocusChangeListener() {
 
     @Override
@@ -631,7 +542,7 @@ public class HexRgbPlusActivity extends Activity {
         int value = 0;
         EditText et = (EditText) findViewById(v.getId());
 
-        value = processRgbInput(et.getText().toString());
+        value = getRgbFromInput(et.getText().toString());
 
         // process input text
         et.setText(value + "");
@@ -662,10 +573,7 @@ public class HexRgbPlusActivity extends Activity {
     @Override
     public boolean onLongClick(View v) {
 
-      int id;
-      int r, g, b, color;
-
-      id = v.getId();
+      int id = v.getId();
 
       switch (id) {
 
@@ -698,6 +606,11 @@ public class HexRgbPlusActivity extends Activity {
         case R.id.button_savebox4:
         case R.id.button_savebox5:
 
+          int r,
+          g,
+          b,
+          color;
+
           r = mColorRed;
           g = mColorGreen;
           b = mColorBlue;
@@ -705,7 +618,7 @@ public class HexRgbPlusActivity extends Activity {
           String hex = rgb2hex(r, g, b);
           mEditTextHex.setText(hex);
 
-          // get the specific button 'poked'
+          // get the specific button that was 'poked'
           Button btn = (Button) findViewById(id);
           btn.setTextColor(getContrastColor(r, g, b));
 
@@ -839,19 +752,19 @@ public class HexRgbPlusActivity extends Activity {
               // delta = current progress - previous progress
               delta = progress - mColorRed;
               mColorRed = progress;
-              mColorBlue = filterRgbInput(mColorBlue + delta);
-              mColorGreen = filterRgbInput(mColorGreen + delta);
+              mColorBlue = getBoundedRgbColorValue(mColorBlue + delta);
+              mColorGreen = getBoundedRgbColorValue(mColorGreen + delta);
               break;
             case R.id.seekbar_green:
               delta = progress - mColorGreen;
-              mColorRed = filterRgbInput(mColorRed + delta);
+              mColorRed = getBoundedRgbColorValue(mColorRed + delta);
               mColorGreen = progress;
-              mColorBlue = filterRgbInput(mColorBlue + delta);
+              mColorBlue = getBoundedRgbColorValue(mColorBlue + delta);
               break;
             case R.id.seekbar_blue:
               delta = progress - mColorBlue;
-              mColorRed = filterRgbInput(mColorRed + delta);
-              mColorGreen = filterRgbInput(mColorGreen + delta);
+              mColorRed = getBoundedRgbColorValue(mColorRed + delta);
+              mColorGreen = getBoundedRgbColorValue(mColorGreen + delta);
               mColorBlue = progress;
               break;
             default:
