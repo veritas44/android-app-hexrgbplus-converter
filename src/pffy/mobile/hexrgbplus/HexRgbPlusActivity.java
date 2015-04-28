@@ -38,6 +38,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -53,7 +54,7 @@ import android.widget.ToggleButton;
  * HexRgbPlusActivity - HEXRGB+ (Experimental)
  * 
  * @license http://unlicense.org/ The Unlicense
- * @version 2.17 (r17)
+ * @version 2.19 (r19)
  * @link https://github.com/pffy/android-hexrgbplus
  * @author https://github.com/pffy The Pffy Authors
  */
@@ -146,7 +147,6 @@ public class HexRgbPlusActivity extends Activity {
     this.mParadeMode = shpref.getBoolean(getString(R.string.prefkey_bool_parade_mode), false);
     this.mToggleButtonParadeMode.setChecked(this.mParadeMode);
 
-    // TODO: make the save box data a StringSet?
     this.mColorPreset1 =
         shpref.getInt(getString(R.string.prefkey_int_colorpreset_one), this.mDefaultColor);
     this.mColorPreset2 =
@@ -167,6 +167,10 @@ public class HexRgbPlusActivity extends Activity {
     this.mEditTextGreen.setOnFocusChangeListener(this.mFocusHandler);
     this.mEditTextBlue.setOnFocusChangeListener(this.mFocusHandler);
 
+    this.mEditTextRed.setOnEditorActionListener(mEditHandler);
+    this.mEditTextGreen.setOnEditorActionListener(mEditHandler);
+    this.mEditTextBlue.setOnEditorActionListener(mEditHandler);
+    
     this.mSeekBarRed.setOnSeekBarChangeListener(this.mSeekHandler);
     this.mSeekBarGreen.setOnSeekBarChangeListener(this.mSeekHandler);
     this.mSeekBarBlue.setOnSeekBarChangeListener(this.mSeekHandler);
@@ -486,8 +490,31 @@ public class HexRgbPlusActivity extends Activity {
       hexNameArray = hexAndColorName.split(delimiter);
       mLinkedHashMapColorNames.put(hexNameArray[0], hexNameArray[1]);
     }
-
   }
+  
+  private void setRgbByView(View v) {
+    
+    int value = 0;
+    EditText et = (EditText) findViewById(v.getId());
+    value = getRgbFromInput(et.getText().toString());
+    et.setText("" + value);
+
+    switch (v.getId()) {
+      case R.id.edittext_red:
+        mColorRed = value;
+        break;
+      case R.id.edittext_green:
+        mColorGreen = value;
+        break;
+      case R.id.edittext_blue:
+        mColorBlue = value;
+        break;
+      default:
+        // nothing
+        break;
+    }
+  }
+
 
   /*
    * Event Listeners - Nice, clean way to respond to user wants and needs.
@@ -505,7 +532,7 @@ public class HexRgbPlusActivity extends Activity {
           updateByHex();
           return true;
         default:
-          // do nothing here.
+          // nothing
           break;
       }
 
@@ -531,6 +558,21 @@ public class HexRgbPlusActivity extends Activity {
         }
       };
 
+  // Handles edits
+  private TextView.OnEditorActionListener mEditHandler = new TextView.OnEditorActionListener() {
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+      if (actionId == EditorInfo.IME_ACTION_DONE) {
+        setRgbByView(v);
+        updateByRgb();
+      }
+      return false;
+    }
+  };
+
+  
   // Handles focus
   private View.OnFocusChangeListener mFocusHandler = new View.OnFocusChangeListener() {
 
@@ -538,30 +580,7 @@ public class HexRgbPlusActivity extends Activity {
     public void onFocusChange(View v, boolean hasFocus) {
 
       if (!hasFocus) {
-
-        int value = 0;
-        EditText et = (EditText) findViewById(v.getId());
-
-        value = getRgbFromInput(et.getText().toString());
-
-        // process input text
-        et.setText(value + "");
-
-        switch (v.getId()) {
-          case R.id.edittext_red:
-            mColorRed = value;
-            break;
-          case R.id.edittext_green:
-            mColorGreen = value;
-            break;
-          case R.id.edittext_blue:
-            mColorBlue = value;
-            break;
-          default:
-            // do nothing.
-            break;
-        }
-
+        setRgbByView(v);
         updateByRgb();
       }
     }
@@ -642,7 +661,7 @@ public class HexRgbPlusActivity extends Activity {
               mColorPreset5 = color;
               break;
             default:
-              // do nothing
+              // nothing
               break;
           }
 
@@ -655,7 +674,7 @@ public class HexRgbPlusActivity extends Activity {
           sendPaletteByIntent();
           return true;
         default:
-          // do nothing
+          // nothing
           break;
       }
 
@@ -717,7 +736,7 @@ public class HexRgbPlusActivity extends Activity {
           setToWhite();
           break;
         default:
-          // do nothing
+          // nothing
           break;
       }
     }
@@ -768,7 +787,7 @@ public class HexRgbPlusActivity extends Activity {
               mColorBlue = progress;
               break;
             default:
-              // do nothing
+              // nothing
               break;
           }
 
@@ -785,7 +804,7 @@ public class HexRgbPlusActivity extends Activity {
               mColorBlue = progress;
               break;
             default:
-              // do nothing
+              // nothing
               break;
           }
         }
@@ -831,7 +850,7 @@ public class HexRgbPlusActivity extends Activity {
               }
 
             default:
-              // do nothing, for now
+              // nothing
               break;
           }
         }
