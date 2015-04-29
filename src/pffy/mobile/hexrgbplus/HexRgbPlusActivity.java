@@ -106,7 +106,6 @@ public class HexRgbPlusActivity extends Activity {
 
   private Spinner mSpinnerColorNames;
 
-  // loads app UI, sets default preferences
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -492,6 +491,7 @@ public class HexRgbPlusActivity extends Activity {
     }
   }
   
+  // Sets RGB value based on View
   private void setRgbByView(View v) {
     
     int value = 0;
@@ -501,13 +501,13 @@ public class HexRgbPlusActivity extends Activity {
 
     switch (v.getId()) {
       case R.id.edittext_red:
-        mColorRed = value;
+        this.mColorRed = value;
         break;
       case R.id.edittext_green:
-        mColorGreen = value;
+        this.mColorGreen = value;
         break;
       case R.id.edittext_blue:
-        mColorBlue = value;
+        this.mColorBlue = value;
         break;
       default:
         // nothing
@@ -516,8 +516,8 @@ public class HexRgbPlusActivity extends Activity {
   }
 
 
-  /*
-   * Event Listeners - Nice, clean way to respond to user wants and needs.
+  /**
+   * Event Handlers
    */
 
   // Handles keys
@@ -742,7 +742,7 @@ public class HexRgbPlusActivity extends Activity {
     }
   };
 
-  // Handles slips and slides
+  // Handles slides
   private SeekBar.OnSeekBarChangeListener mSeekHandler = new SeekBar.OnSeekBarChangeListener() {
 
     @Override
@@ -758,10 +758,8 @@ public class HexRgbPlusActivity extends Activity {
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-      // if user touch
-      if (fromUser) {
 
-        // if parade mode
+      if (fromUser) {
         if (mParadeMode) {
 
           int delta = 0;
@@ -814,7 +812,7 @@ public class HexRgbPlusActivity extends Activity {
     }
   };
 
-  // Handles spinner choices
+  // Handles item selections
   private AdapterView.OnItemSelectedListener mChoiceHandler =
       new AdapterView.OnItemSelectedListener() {
 
