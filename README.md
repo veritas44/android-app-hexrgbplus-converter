@@ -1,7 +1,7 @@
 # HEXRGB+ Color Picker Converter
   + Experimental color picker converter for Android-compatible devices.
-  + [**Download APK**][apkfile].
-  + [Get in Google Play Store][storepage].
+  + [**Download APK**][apkfile]
+  + [Get in Google Play Store][storepage]
 
 [![HEXRGB+ Color Picker Converter][g_playlogo]][storepage]
 
