@@ -1,11 +1,13 @@
 # HEXRGB+ Color Picker Converter
-  + Experimental color picker converter for Android-compatible devices.
-  + [**Download APK**][apkfile]
-  + [Get in Google Play Store][storepage]
+  + Experimental offline color browser for Android-compatible devices.
+  + Download the [latest release][latest_release].
 
-[![HEXRGB+ Color Picker Converter][g_playlogo]][storepage]
+## Dependencies
+  + android-support-v4.jar
 
-[apkfile]: https://github.com/pffy/apk/raw/master/dist/HEXRGBPLUS-19.apk
-[storepage]: https://play.google.com/store/apps/details?id=pffy.mobile.hexrgbplus
-[g_playlogo]: https://cloud.githubusercontent.com/assets/7258373/6883954/f6895d2c-d585-11e4-997f-d04895d3a033.png
+## [License][license_link]
 
+> **COMPLIANCE OFFICERS:**  This software is released under The Unlicense. For your software compliance paperwork mandated by your corporate policy, you can simply print/save this LICENSE file as proof of our software licensing agreement and completed acquisition. Please consult your legal department or a licensed attorney.
+
+[license_link]: LICENSE
+[latest_release]: ../../releases/latest
